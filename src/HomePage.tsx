@@ -1,52 +1,35 @@
 // src/HomePage.tsx
-import React from 'react';
-import { Container, AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
-// import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
-// import { Switch } from 'react-router';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Switch } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/HomeOutlined';
-import PricingIcon from '@mui/icons-material/AttachMoneyOutlined';
-import ContactIcon from '@mui/icons-material/MailOutlined';
-import Home from './pages/Home';
-import Pricing from './pages/Pricing';
-import Contact from './pages/Contact';
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
-const HomePage: React.FC = () => {
+export default function HomePage() {
   return (
-    <Router>
-      <Container>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="home" component={Link} to="/">
-              <HomeIcon />
-            </IconButton>
-            <Typography variant="h6" style={{ flexGrow: 1 }}>
-              Vacation House
-            </Typography>
-            <Button color="inherit" startIcon={<PricingIcon />} component={Link} to="/pricing">
-              Pricing
-            </Button>
-            <Button color="inherit" startIcon={<ContactIcon />} component={Link} to="/contact">
-              Contact
-            </Button>
-          </Toolbar>
-        </AppBar>
-
-        <Switch>
-          <Route path="/pricing">
-            <Pricing />
-          </Route>
-          <Route path="/contact">
-            <Contact />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </Container>
-    </Router>
+    <>
+      <AppBar
+        position="sticky"
+        sx={{
+          backgroundColor: 'white',
+          color: 'black',
+          boxShadow: 'none',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+        }}
+      >
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
+            Vacation House
+          </Typography>
+          <Button component={RouterLink} to="/" color="inherit" sx={{ textTransform: 'none' }}>
+            Home
+          </Button>
+          <Button component={RouterLink} to="/pricing" color="inherit" sx={{ textTransform: 'none' }}>
+            Pricing
+          </Button>
+          <Button component={RouterLink} to="/contact" color="inherit" sx={{ textTransform: 'none' }}>
+            Contact
+          </Button>
+        </Toolbar>
+      </AppBar>
+      {/* Add your main content here */}
+    </>
   );
-};
-
-export default HomePage;
+}
