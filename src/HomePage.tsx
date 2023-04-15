@@ -1,6 +1,6 @@
-// src/HomePage.tsx
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import './assets/styles.css';
 
 export default function HomePage() {
   return (
@@ -8,10 +8,9 @@ export default function HomePage() {
       <AppBar
         position="sticky"
         sx={{
-          backgroundColor: 'white',
+          backgroundColor: 'transparent',
           color: 'black',
           boxShadow: 'none',
-          borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
         }}
       >
         <Toolbar>
@@ -29,6 +28,7 @@ export default function HomePage() {
           </Button>
         </Toolbar>
       </AppBar>
+      <div className="home-background" style={{ paddingTop: '64px' }}></div>
       {/* Add your main content here */}
     </>
   );
