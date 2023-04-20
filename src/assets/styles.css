@@ -50,7 +50,7 @@
 }
 
 .word {
-  display: inline-block; /* Add this line */
-  animation: fadeInMove 1s forwards;
+  display: inline-block;
+  animation: fadeInMove 0.5s forwards;
   opacity: 0;
 }
