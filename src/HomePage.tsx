@@ -1,6 +1,6 @@
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import './assets/styles.css';
+import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import "./assets/styles.css";
 
 export default function HomePage() {
   return (
@@ -9,109 +9,126 @@ export default function HomePage() {
         position="fixed"
         className="blurry-appbar"
         sx={{
-          backgroundColor: 'transparent',
-          boxShadow: 'none',
+          backgroundColor: "transparent",
+          boxShadow: "none",
           zIndex: 1000,
-          width: '100%',
+          width: "100%",
+          animation: "slideDown 1s",
         }}
       >
-        <Box
-          sx={{
-            maxWidth: '33%',
-            margin: '0 auto',
-          }}
-        >
+        <Toolbar disableGutters>
           <Box
             sx={{
-              backgroundColor: 'rgba(255, 255, 255, 0.5)',
-              width: '600px',
-              position: 'absolute',
-              left: '50%',
-              top: 0,
-              bottom: 0,
-              transform: 'translateX(-50%)',
+              margin: "0 auto",
+              maxWidth: "60%", // Set the desired maxWidth for centered content
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
             }}
-          />
-          <Toolbar disableGutters>
-            <Box
+          >
+            <Typography
+              variant="h6"
+              component="div"
               sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: '600px', // Set fixed width for the content
-                minHeight: '64px', // Set the minimum height to match the AppBar height
+                fontWeight: "bold",
+                color: "black",
               }}
             >
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{
-                  fontWeight: 'bold',
-                  color: 'black',
-                  marginLeft: '1rem', // Add some left margin for spacing
-                }}
+              Vacation House
+            </Typography>
+            <Box>
+              <Button
+                component={RouterLink}
+                to="/"
+                color="inherit"
+                sx={{ textTransform: "none", color: "black" }}
               >
-                Vacation House
-              </Typography>
-              <Box>
-                <Button
-                  component={RouterLink}
-                  to="/"
-                  color="inherit"
-                  sx={{ textTransform: 'none', color: 'black' }}
-                >
-                  Home
-                </Button>
-                <Button
-                  component={RouterLink}
-                  to="/pricing"
-                  color="inherit"
-                  sx={{ textTransform: 'none', color: 'black' }}
-                >
-                  Pricing
-                </Button>
-                <Button
-                  component={RouterLink}
-                  to="/contact"
-                  color="inherit"
-                  sx={{ textTransform: 'none', color: 'black' }}
-                >
-                  Contact
-                </Button>
-              </Box>
+                Home
+              </Button>
+              <Button
+                component={RouterLink}
+                to="/pricing"
+                color="inherit"
+                sx={{ textTransform: "none", color: "black" }}
+              >
+                Pricing
+              </Button>
+              <Button
+                component={RouterLink}
+                to="/contact"
+                color="inherit"
+                sx={{ textTransform: "none", color: "black" }}
+              >
+                Contact
+              </Button>
             </Box>
-          </Toolbar>
-        </Box>
+          </Box>
+        </Toolbar>
       </AppBar>
       <Box
         className="home-background"
         sx={{
-          paddingTop: '64px',
-          minHeight: '100vh',
-          backgroundSize: 'cover',
-          position: 'fixed',
-          width: '100%',
+          paddingTop: "64px",
+          minHeight: "100vh",
+          backgroundSize: "cover",
+          position: "fixed",
+          width: "100%",
           zIndex: -1,
         }}
       />
       <Box
         className="home-content"
         sx={{
-          backgroundColor: 'white',
-          padding: '2rem',
-          minHeight: '100vh',
-          position: 'relative',
+          backgroundColor: "white",
+          padding: "2rem",
+          minHeight: "100vh",
+          position: "relative",
           zIndex: 1,
-          top: '100%',
-          paddingTop: 'calc(64px + 2rem)',
-          paddingBottom: 'calc(64px + 2rem)',
+          top: "100%",
+          paddingTop: "calc(64px + 2rem)",
+          paddingBottom: "calc(64px + 2rem)",
         }}
       >
-        <Typography variant="h2">Discover the Beauty of Norway</Typography>
-        <Typography variant="body1" sx={{ marginTop: 2 }}>
-          Norway, a beautiful and enchanting Nordic country, is famous for its breathtaking landscapes, mesmerizing fjords, and friendly locals. Known as the Land of the Midnight Sun, Norway offers a magical experience to travelers, with its picturesque countryside and vibrant cities.
-        </Typography>
-        {/* ... */}
+        <Box
+          sx={{
+            position: "absolute",
+            left: "10%",
+            top: "-40%",
+            color: "white",
+            zIndex: 1,
+          }}
+        >
+          <Typography variant="h1">
+            <span className="word" style={{ opacity: 0, animationDelay: "0s" }}>
+              Welcome
+            </span>{" "}
+            <span
+              className="word"
+              style={{ opacity: 0, animationDelay: "0.5s" }}
+            >
+              to
+            </span>{" "}
+            <span className="word" style={{ opacity: 0, animationDelay: "1s" }}>
+              Norway
+            </span>
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            margin: "0 auto",
+            maxWidth: "60%", // Set the desired maxWidth for centered content
+          }}
+        >
+          <Typography variant="h2">Discover the Beauty of Norway</Typography>
+          <Typography variant="body1" sx={{ marginTop: 2 }}>
+            Norway, a beautiful and enchanting Nordic country, is famous for its
+            breathtaking landscapes, mesmerizing fjords, and friendly locals.
+            Known as the Land of the Midnight Sun, Norway offers a magical
+            experience to travelers, with its picturesque countryside and
+            vibrant cities.
+          </Typography>
+          {/* ... */}
+        </Box>
       </Box>
       {/* Add your main content here */}
     </>
