@@ -1,13 +1,29 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import "./assets/styles.css";
+import { useState, useEffect } from "react";
 
 export default function HomePage() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.pageYOffset);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <AppBar
         position="fixed"
-        className="blurry-appbar"
+        className={
+          scrollPosition > 0 ? "blurry-appbar scrolled" : "blurry-appbar"
+        }
         sx={{
           backgroundColor: "transparent",
           boxShadow: "none",
@@ -34,14 +50,18 @@ export default function HomePage() {
                 color: "black",
               }}
             >
-              Vacation House
+              Rorbu Bømlo
             </Typography>
             <Box>
               <Button
                 component={RouterLink}
                 to="/"
                 color="inherit"
-                sx={{ textTransform: "none", color: "black" }}
+                sx={{
+                  textTransform: "none",
+                  color: scrollPosition > 0 ? "black" : "white",
+                  transition: "color 0.3s",
+                }}
               >
                 Home
               </Button>
@@ -49,7 +69,11 @@ export default function HomePage() {
                 component={RouterLink}
                 to="/pricing"
                 color="inherit"
-                sx={{ textTransform: "none", color: "black" }}
+                sx={{
+                  textTransform: "none",
+                  color: scrollPosition > 0 ? "black" : "white",
+                  transition: "color 0.3s",
+                }}
               >
                 Pricing
               </Button>
@@ -57,7 +81,11 @@ export default function HomePage() {
                 component={RouterLink}
                 to="/contact"
                 color="inherit"
-                sx={{ textTransform: "none", color: "black" }}
+                sx={{
+                  textTransform: "none",
+                  color: scrollPosition > 0 ? "black" : "white",
+                  transition: "color 0.3s",
+                }}
               >
                 Contact
               </Button>
