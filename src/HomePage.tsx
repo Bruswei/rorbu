@@ -98,7 +98,7 @@ export default function HomePage() {
             zIndex: 1,
           }}
         >
-          <Typography variant="h1">
+          <Typography variant="h2" className="welcome-text">
             <span className="word" style={{ animationDelay: "0.5s" }}>
               Welcome
             </span>{" "}
@@ -106,7 +106,7 @@ export default function HomePage() {
               to
             </span>{" "}
             <span className="word" style={{ animationDelay: "1s" }}>
-              Norway
+              Bømlo
             </span>
           </Typography>
         </Box>

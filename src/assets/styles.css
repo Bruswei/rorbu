@@ -54,3 +54,8 @@
   animation: fadeInMove 0.5s forwards;
   opacity: 0;
 }
+
+.welcome-text {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
