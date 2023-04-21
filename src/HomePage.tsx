@@ -7,6 +7,14 @@ export default function HomePage() {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
+    document.body.style.overflowX = "hidden";
+    return () => {
+      document.body.style.overflowX = "";
+    };
+  }, []);
+
+
+  useEffect(() => {
     const handleScroll = () => {
       setScrollPosition(window.pageYOffset);
     };
