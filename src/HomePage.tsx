@@ -127,13 +127,13 @@ export default function HomePage() {
           }}
         >
           <Typography variant="h2" className="welcome-text">
-            <span className="word" style={{ animationDelay: "0.5s" }}>
+            <span className="word" style={{ animationDelay: "0.3s" }}>
               Welcome
             </span>{" "}
-            <span className="word" style={{ animationDelay: "0.75s" }}>
+            <span className="word" style={{ animationDelay: "0.7s" }}>
               to
             </span>{" "}
-            <span className="word" style={{ animationDelay: "1s" }}>
+            <span className="word" style={{ animationDelay: "1.1s" }}>
               Bømlo
             </span>
           </Typography>

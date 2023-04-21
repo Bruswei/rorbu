@@ -38,10 +38,18 @@
   }
 }
 
+.word {
+  display: inline-block;
+  opacity: 0;
+  animation-name: fadeInMove;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
 @keyframes fadeInMove {
   0% {
     opacity: 0;
-    transform: translateX(-30px);
+    transform: translateX(-20px);
   }
   100% {
     opacity: 1;
@@ -49,10 +57,12 @@
   }
 }
 
-.word {
-  display: inline-block;
-  animation: fadeInMove 0.5s forwards;
+.welcome-text {
   opacity: 0;
+  animation-name: fadeInMove;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .welcome-text {
