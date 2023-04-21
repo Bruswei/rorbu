@@ -65,10 +65,6 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.welcome-text {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
 .blurry-appbar.scrolled {
   background-color: rgba(255, 255, 255, 0.9);
   transition: background-color 0.3s;

@@ -126,7 +126,7 @@ export default function HomePage() {
             zIndex: 1,
           }}
         >
-          <Typography variant="h2" className="welcome-text">
+          <Typography variant="h1" className="welcome-text">
             <span className="word" style={{ animationDelay: "0.3s" }}>
               Welcome
             </span>{" "}
