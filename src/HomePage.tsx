@@ -1,6 +1,7 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import "./assets/styles.css";
+import norwayImage from "./../media/view.jpg";
 import { useState, useEffect } from "react";
 
 export default function HomePage() {
@@ -12,7 +13,6 @@ export default function HomePage() {
       document.body.style.overflowX = "";
     };
   }, []);
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -150,17 +150,28 @@ export default function HomePage() {
           sx={{
             margin: "0 auto",
             maxWidth: "60%", // Set the desired maxWidth for centered content
+            display: "flex", // Add this line
           }}
         >
-          <Typography variant="h2">Discover the Beauty of Norway</Typography>
-          <Typography variant="body1" sx={{ marginTop: 2 }}>
-            Norway, a beautiful and enchanting Nordic country, is famous for its
-            breathtaking landscapes, mesmerizing fjords, and friendly locals.
-            Known as the Land of the Midnight Sun, Norway offers a magical
-            experience to travelers, with its picturesque countryside and
-            vibrant cities.
-          </Typography>
-          {/* ... */}
+          <Box sx={{ flex: "1" }}>
+            <Typography variant="h2">Discover the Beauty of Norway</Typography>
+            <Typography variant="body1" sx={{ marginTop: 2 }}>
+              Norway, a beautiful and enchanting Nordic country, is famous for
+              its breathtaking landscapes, mesmerizing fjords, and friendly
+              locals. Known as the Land of the Midnight Sun, Norway offers a
+              magical experience to travelers, with its picturesque countryside
+              and vibrant cities.
+            </Typography>
+          </Box>
+          <Box sx={{ flex: "1", marginLeft: 6 }}>
+            {" "}
+            {/* Increase marginLeft to 6 */}
+            <img
+              src={norwayImage}
+              alt="Norway"
+              style={{ width: "100%" }} // Decrease the image size by 20% using scale(0.8)
+            />
+          </Box>
         </Box>
       </Box>
       {/* Add your main content here */}
