@@ -1,10 +1,19 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import "./assets/styles.css";
-import { useState, useEffect } from "react";
+import norwayImage from "./../media/view.jpg";
+import { useState, useEffect, useRef } from "react";
+import useOnScreen from "./utils/useOnScreen";
 
 export default function HomePage() {
   const [scrollPosition, setScrollPosition] = useState(0);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+
+  const isImageOnScreen = useOnScreen(imageRef);
+  const isTitleOnScreen = useOnScreen(titleRef);
+  const isBodyOnScreen = useOnScreen(bodyRef);
 
   useEffect(() => {
     document.body.style.overflowX = "hidden";
@@ -12,7 +21,6 @@ export default function HomePage() {
       document.body.style.overflowX = "";
     };
   }, []);
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -149,18 +157,44 @@ export default function HomePage() {
         <Box
           sx={{
             margin: "0 auto",
-            maxWidth: "60%", // Set the desired maxWidth for centered content
+            maxWidth: "60%",
+            display: "flex",
           }}
         >
-          <Typography variant="h2">Discover the Beauty of Norway</Typography>
-          <Typography variant="body1" sx={{ marginTop: 2 }}>
-            Norway, a beautiful and enchanting Nordic country, is famous for its
-            breathtaking landscapes, mesmerizing fjords, and friendly locals.
-            Known as the Land of the Midnight Sun, Norway offers a magical
-            experience to travelers, with its picturesque countryside and
-            vibrant cities.
-          </Typography>
-          {/* ... */}
+          <Box
+            sx={{ flex: "1" }}
+            ref={titleRef}
+            className={`slideUp-initial ${isTitleOnScreen ? "slideUp" : ""}`}
+          >
+            <Typography
+              style={{ transitionDelay: "1s" }}
+              className={`slideUp-initial ${isBodyOnScreen ? "slideUp" : ""}`}
+              variant="h2"
+            >
+              Discover the Beauty of Norway
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{ marginTop: 2 }}
+              ref={bodyRef}
+              className={`slideUp-initial ${isBodyOnScreen ? "slideUp" : ""}`}
+              style={{ transitionDelay: "1.5s" }}
+            >
+              Norway, a beautiful and enchanting Nordic country, is famous for
+              its breathtaking landscapes, mesmerizing fjords, and friendly
+              locals. Known as the Land of the Midnight Sun, Norway offers a
+              magical experience to travelers, with its picturesque countryside
+              and vibrant cities.
+            </Typography>
+          </Box>
+          <Box
+            sx={{ flex: "1", marginLeft: 6 }}
+            ref={imageRef}
+            className={`slideUp-initial ${isImageOnScreen ? "slideUp" : ""}`}
+            style={{ transitionDelay: "0.5s" }}
+          >
+            <img src={norwayImage} alt="Norway" style={{ width: "100%" }} />
+          </Box>
         </Box>
       </Box>
       {/* Add your main content here */}
