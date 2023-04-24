@@ -107,3 +107,35 @@
   color: white;
   background-color: rgba(0, 0, 0, 0.7);
 }
+
+.slideUp {
+  animation-name: slideUp;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+.slideUp:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.slideUp:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.slideUp:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.slideUp-initial {
+  opacity: 0;
+  transform: translateY(20px);
+  visibility: hidden;
+}
+
+.slideUp {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  transition: opacity 1.5s, transform 1.5s; /* Increase the duration from 0.5s to 1.5s */
+}
+
