@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import "./assets/styles.css";
 import norwayImage from "./../media/view.jpg";
 import { useState, useEffect, useRef } from "react";
@@ -14,6 +14,7 @@ export default function HomePage() {
   const isImageOnScreen = useOnScreen(imageRef);
   const isTitleOnScreen = useOnScreen(titleRef);
   const isBodyOnScreen = useOnScreen(bodyRef);
+  const homeContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.body.style.overflowX = "hidden";
@@ -21,6 +22,25 @@ export default function HomePage() {
       document.body.style.overflowX = "";
     };
   }, []);
+
+  const location = useLocation();
+
+  const [isInitialRender, setIsInitialRender] = useState(true);
+
+  useEffect(() => {
+    if (!isInitialRender) {
+      if (location.pathname === "/") {
+        if (homeContentRef.current) {
+          window.scrollTo({
+            top: homeContentRef.current.offsetTop,
+            behavior: "smooth",
+          });
+        }
+      }
+    } else {
+      setIsInitialRender(false);
+    }
+  }, [location]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,16 +78,24 @@ export default function HomePage() {
               justifyContent: "space-between",
             }}
           >
-            <Typography
-              variant="h6"
-              component="div"
+            <Button
+              onClick={() => {
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }}
               sx={{
+                textTransform: "none",
                 fontWeight: "bold",
-                color: "black",
+                color: scrollPosition > 0 ? "black" : "white",
+                transition: "color 0.3s",
               }}
             >
-              Rorbu Bømlo
-            </Typography>
+              <Typography variant="h6" component="div">
+                Rorbu Bømlo
+              </Typography>
+            </Button>
             <Box>
               <Button
                 component={RouterLink}
@@ -121,6 +149,7 @@ export default function HomePage() {
         }}
       />
       <Box
+        ref={homeContentRef}
         className="home-content"
         sx={{
           backgroundColor: "white",
