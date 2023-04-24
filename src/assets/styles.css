@@ -139,3 +139,6 @@
   transition: opacity 1.5s, transform 1.5s; /* Increase the duration from 0.5s to 1.5s */
 }
 
+.full-screen {
+  top: 0 !important;
+}
