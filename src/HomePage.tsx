@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import useOnScreen from "./utils/useOnScreen";
 
 export default function HomePage() {
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [scrollPosition, setScrollPosition] = useState(window.pageYOffset);
   const imageRef = useRef<HTMLImageElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
