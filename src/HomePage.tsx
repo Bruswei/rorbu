@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import "./assets/styles.css";
-import norwayImage from "./../media/view.jpg";
+import norwayImage from "./../media/sea.jpg";
 import { useState, useEffect, useRef } from "react";
 import useOnScreen from "./utils/useOnScreen";
 
@@ -188,10 +188,11 @@ export default function HomePage() {
             margin: "0 auto",
             maxWidth: "60%",
             display: "flex",
+            color: "black",
           }}
         >
           <Box
-            sx={{ flex: "1" }}
+            sx={{ flex: "1", color: "black" }}
             ref={titleRef}
             className={`slideUp-initial ${isTitleOnScreen ? "slideUp" : ""}`}
           >
