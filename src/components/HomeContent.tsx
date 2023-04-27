@@ -3,14 +3,24 @@ import { useRef } from "react";
 import useOnScreen from "../utils/useOnScreen";
 import norwayImage from "../../media/sea.jpg";
 
-export default function HomeContent() {
-  const imageRef = useRef<HTMLImageElement>(null);
-  const titleRef = useRef<HTMLDivElement>(null);
-  const bodyRef = useRef<HTMLDivElement>(null);
+interface HomeContentProps {
+  titleRef: React.RefObject<HTMLDivElement>;
+  bodyRef: React.RefObject<HTMLDivElement>;
+  imageRef: React.RefObject<HTMLImageElement>;
+  isTitleOnScreen: boolean;
+  isBodyOnScreen: boolean;
+  isImageOnScreen: boolean;
+}
 
-  const isImageOnScreen = useOnScreen(imageRef);
-  const isTitleOnScreen = useOnScreen(titleRef);
-  const isBodyOnScreen = useOnScreen(bodyRef);
+export default function HomeContent(props: HomeContentProps) {
+  const {
+    titleRef,
+    bodyRef,
+    imageRef,
+    isTitleOnScreen,
+    isBodyOnScreen,
+    isImageOnScreen,
+  } = props;
 
   return (
     <Box
