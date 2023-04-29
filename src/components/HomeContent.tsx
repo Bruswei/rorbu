@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { useRef } from "react";
 import useOnScreen from "../utils/useOnScreen";
 import norwayImage from "../../media/sea.jpg";
+import CalendarPicker from "./CalendarPicker/CalendarPicker";
 
 interface HomeContentProps {
   titleRef: React.RefObject<HTMLDivElement>;
@@ -21,6 +22,8 @@ export default function HomeContent(props: HomeContentProps) {
     isBodyOnScreen,
     isImageOnScreen,
   } = props;
+
+  const unavailableDates = [new Date("2023-05-10"), new Date("2023-05-11"), new Date("2023-05-12"), new Date("2023-05-15")];
 
   return (
     <Box
@@ -100,6 +103,7 @@ export default function HomeContent(props: HomeContentProps) {
           <img src={norwayImage} alt="Norway" style={{ width: "100%" }} />
         </Box>
       </Box>
+      <CalendarPicker unavailableDates={unavailableDates} />
     </Box>
   );
 }

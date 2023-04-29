@@ -1,0 +1,9 @@
+.unavailable {
+  background-color: red;
+  color: white;
+}
+
+.active {
+  background-color: inherit !important;
+  outline: none !important;
+}
