@@ -1,6 +1,16 @@
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+} from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import CalendarPicker from "./CalendarPicker/CalendarPicker";
 
 interface AppBarProps {
   scrollPosition: number;
@@ -8,6 +18,9 @@ interface AppBarProps {
 
 export default function MyAppBar({ scrollPosition }: AppBarProps) {
   const [isRestored, setIsRestored] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const unavailableDates = [new Date("2023-05-10"), new Date("2023-05-11"), new Date("2023-05-12"), new Date("2023-05-15")];
 
   useEffect(() => {
     const handleLoad = () => {
@@ -27,6 +40,13 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
     scrollPosition > 0 || isRestored
       ? "blurry-appbar scrolled"
       : "blurry-appbar";
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   return (
     <AppBar
@@ -96,7 +116,7 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
             >
               Pricing
             </Button>
-            <Button
+            {/* <Button
               component={RouterLink}
               to="/contact"
               color="inherit"
@@ -107,8 +127,25 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
               }}
             >
               Contact
+            </Button> */}
+            <Button
+              color="inherit"
+              onClick={handleOpenDialog}
+              sx={{
+                textTransform: "none",
+                color: scrollPosition > 0 ? "black" : "white",
+                transition: "color 0.3s",
+              }}
+            >
+              Availability
             </Button>
           </Box>
+          <Dialog open={openDialog} onClose={handleCloseDialog}>
+            <DialogTitle>Check Availability</DialogTitle>
+            <DialogContent>
+              <CalendarPicker unavailableDates={unavailableDates} />
+            </DialogContent>
+          </Dialog>
         </Box>
       </Toolbar>
     </AppBar>

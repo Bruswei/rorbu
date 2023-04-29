@@ -23,8 +23,6 @@ export default function HomeContent(props: HomeContentProps) {
     isImageOnScreen,
   } = props;
 
-  const unavailableDates = [new Date("2023-05-10"), new Date("2023-05-11"), new Date("2023-05-12"), new Date("2023-05-15")];
-
   return (
     <Box
       className="home-content"
@@ -103,7 +101,6 @@ export default function HomeContent(props: HomeContentProps) {
           <img src={norwayImage} alt="Norway" style={{ width: "100%" }} />
         </Box>
       </Box>
-      <CalendarPicker unavailableDates={unavailableDates} />
     </Box>
   );
 }
