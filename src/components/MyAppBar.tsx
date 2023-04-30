@@ -8,7 +8,9 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  IconButton,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { Link as RouterLink } from "react-router-dom";
 import CalendarPicker from "./CalendarPicker/CalendarPicker";
 
@@ -149,7 +151,22 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
         </Box>
       </Toolbar>
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
-        <DialogTitle>Check Availability</DialogTitle>
+        <DialogTitle>
+          <Typography variant="h6" component="div">
+            Check Availability
+          </Typography>
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseDialog}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <CalendarPicker unavailableDates={unavailableDates} />
         </DialogContent>
