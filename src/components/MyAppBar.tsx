@@ -20,7 +20,12 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
   const [isRestored, setIsRestored] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const unavailableDates = [new Date("2023-05-10"), new Date("2023-05-11"), new Date("2023-05-12"), new Date("2023-05-15")];
+  const unavailableDates = [
+    new Date("2023-05-01"),
+    new Date("2023-05-02"),
+    new Date("2023-05-03"),
+    new Date("2023-05-04"),
+  ];
 
   useEffect(() => {
     const handleLoad = () => {
@@ -51,10 +56,7 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
   return (
     <AppBar
       position="fixed"
-      className={
-        // scrollPosition > 0 ? "blurry-appbar scrolled" : "blurry-appbar"
-        appBarClass
-      }
+      className={appBarClass}
       sx={{
         backgroundColor: "transparent",
         boxShadow: "none",
@@ -88,7 +90,7 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
             }}
           >
             <Typography variant="h6" component="div">
-              Rorbu Bømlo
+              Filipsson Rorbu
             </Typography>
           </Button>
           <Box>

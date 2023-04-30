@@ -77,7 +77,7 @@ function CalendarPicker({ unavailableDates }) {
           }
         `}
       </style>
-      <Calendar onClickDay={handleDayClick} tileDisabled={tileDisabled} />
+      <Calendar onClickDay={handleDayClick} tileDisabled={tileDisabled} minDate={new Date()}/>
       {renderAlert()}
     </>
   );
