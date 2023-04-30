@@ -25,6 +25,10 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
     new Date("2023-05-02"),
     new Date("2023-05-03"),
     new Date("2023-05-04"),
+    new Date("2023-06-01"),
+    new Date("2023-06-02"),
+    new Date("2023-06-03"),
+    new Date("2023-06-04"),
   ];
 
   useEffect(() => {
@@ -131,8 +135,8 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
               Contact
             </Button> */}
             <Button
-              color="inherit"
               onClick={handleOpenDialog}
+              color="inherit"
               sx={{
                 textTransform: "none",
                 color: scrollPosition > 0 ? "black" : "white",
@@ -142,14 +146,14 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
               Availability
             </Button>
           </Box>
-          <Dialog open={openDialog} onClose={handleCloseDialog}>
-            <DialogTitle>Check Availability</DialogTitle>
-            <DialogContent>
-              <CalendarPicker unavailableDates={unavailableDates} />
-            </DialogContent>
-          </Dialog>
         </Box>
       </Toolbar>
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
+        <DialogTitle>Check Availability</DialogTitle>
+        <DialogContent>
+          <CalendarPicker unavailableDates={unavailableDates} />
+        </DialogContent>
+      </Dialog>
     </AppBar>
   );
 }

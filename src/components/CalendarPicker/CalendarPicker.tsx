@@ -1,85 +1,51 @@
-import React, { useState, useEffect } from "react";
-import Calendar from "react-calendar";
-import { isSameDay } from "date-fns";
-import "react-calendar/dist/Calendar.css";
-import { Alert } from "@mui/material";
-import "./calendarPicker.css";
+import React from "react";
+import { Calendar } from "react-multi-date-picker";
+import { addMonths, isSameDay } from "date-fns";
+import "./CalendarPicker.css";
 
 function CalendarPicker({ unavailableDates }) {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [showAlert, setShowAlert] = useState(false);
+  const today = new Date();
+  const defaultStartDate = today.toISOString();
+  const defaultEndDate = addMonths(today, 1).toISOString();
 
-  const tileDisabled = ({ date }) => {
-    return unavailableDates.some((unavailableDate) =>
+  const isDateUnavailable = (date) =>
+    unavailableDates.some((unavailableDate) =>
       isSameDay(date, unavailableDate)
     );
-  };
 
-  const handleDayClick = (date) => {
-    if (
-      unavailableDates.some((unavailableDate) =>
-        isSameDay(date, unavailableDate)
-      )
-    ) {
-      return; // Disable clicking on unavailable dates
-    }
-    setSelectedDate(date);
-    setShowAlert(true);
-  };
+  const mapDays = ({ date }) => {
+    let props = {};
+    unavailableDates.some((unavailableDate) => {
+      const d = new Date(date);
+      if (
+        d.toLocaleString(`default`, { month: "long" }) ===
+          unavailableDate.toLocaleString(`default`, { month: "long" }) &&
+        d.getDate() === unavailableDate.getDate()
+      ) {
+        props.style = {
+          ...props.style,
+          color: "#0074d9",
+          backgroundColor: "#f06b24",
+        };
+      }
+    });
 
-  useEffect(() => {
-    if (showAlert) {
-      const timer = setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [showAlert]);
-
-  const renderAlert = () => {
-    if (selectedDate && showAlert) {
-      return (
-        <Alert
-          severity="success"
-          sx={{
-            position: "fixed",
-            left: "50%",
-            transform: "translateX(-50%)",
-            bottom: "64px",
-            maxWidth: "90%",
-            borderRadius: "4px",
-            fontSize: "14px",
-            animation: "slide-in 0.3s ease-in-out",
-            animationFillMode: "forwards",
-            opacity: 0,
-          }}
-        >
-          The date you picked is available for booking.
-        </Alert>
-      );
-    }
-    return null;
+    return props;
   };
 
   return (
-    <>
-      <style>
-        {`
-          @keyframes slide-in {
-            from {
-              transform: translateX(-50%) translateY(50px);
-              opacity: 0;
-            }
-            to {
-              transform: translateX(-50%) translateY(0);
-              opacity: 1;
-            }
-          }
-        `}
-      </style>
-      <Calendar onClickDay={handleDayClick} tileDisabled={tileDisabled} minDate={new Date()}/>
-      {renderAlert()}
-    </>
+    <div className="calendar-container">
+      <Calendar
+        multiple
+        fullYear
+        readOnly
+        mapDays={mapDays}
+        defaultValue={[defaultStartDate, defaultEndDate]}
+        weekStartDayIndex={1}
+        format="MM/dd/yyyy"
+        weekNumber="WN"
+      />
+    </div>
   );
 }
 

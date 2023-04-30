@@ -1,9 +1,8 @@
-.unavailable {
-  background-color: red;
-  color: white;
+.rmdp-day {
+  cursor: default;
+  pointer-events: none;
 }
 
-.active {
-  background-color: inherit !important;
-  outline: none !important;
+.unavailable-date {
+  color: #d11c1c;
 }
