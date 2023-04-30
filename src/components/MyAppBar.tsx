@@ -33,6 +33,11 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
     new Date("2023-06-04"),
   ];
 
+  const handleRangeSelected = (selectedRange) => {
+    // Handle the selected range here
+    console.log(selectedRange);
+  };
+
   useEffect(() => {
     const handleLoad = () => {
       const restoredScrollPosition = window.pageYOffset;
@@ -150,7 +155,19 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
           </Box>
         </Box>
       </Toolbar>
-      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        maxWidth="md"
+        sx={{
+          width: "80%",
+          margin: "auto",
+          "& .MuiDialog-paper": {
+            width: "100%",
+            maxWidth: "80%",
+          },
+        }}
+      >
         <DialogTitle>
           <Typography variant="h6" component="div">
             Check Availability
@@ -168,7 +185,7 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <CalendarPicker unavailableDates={unavailableDates} />
+          <CalendarPicker onRangeSelected={handleRangeSelected} />
         </DialogContent>
       </Dialog>
     </AppBar>

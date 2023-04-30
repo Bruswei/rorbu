@@ -1,55 +1,33 @@
 import React, { useState } from "react";
-import { Calendar } from "react-multi-date-picker";
-import { addMonths, isSameDay } from "date-fns";
-import { Backdrop, CircularProgress } from "@mui/material";
+import { DateRangePicker } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 import "./CalendarPicker.css";
 
-function CalendarPicker({ unavailableDates }) {
-  const today = new Date();
-  const defaultStartDate = today.toISOString();
-  const defaultEndDate = addMonths(today, 1).toISOString();
-  const [loading, setLoading] = useState(true);
+function CalendarPicker({ onRangeSelected }) {
+  const [selectedRange, setSelectedRange] = useState({
+    startDate: null,
+    endDate: null,
+    key: "selection",
+  });
 
-  const mapDays = ({ date }) => {
-    let props = {};
-    unavailableDates.some((unavailableDate) => {
-      const d = new Date(date);
-      if (
-        d.toLocaleString("default", { month: "long" }) ===
-          unavailableDate.toLocaleString("default", { month: "long" }) &&
-        d.getDate() === unavailableDate.getDate()
-      ) {
-        props.style = {
-          ...props.style,
-          color: "#ffffff",
-          backgroundColor: "#f06b24",
-        };
-      }
-    });
-
-    return props;
+  const handleRangeSelect = (ranges) => {
+    setSelectedRange(ranges.selection);
+    onRangeSelected(ranges.selection);
   };
-
-  // Simulating data loading delay
-  setTimeout(() => {
-    setLoading(false);
-  }, 2000);
 
   return (
     <div className="calendar-container">
-      <Backdrop open={loading} sx={{ zIndex: 999 }}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-      <Calendar
-        multiple
-        fullYear
-        readOnly
-        mapDays={mapDays}
-        defaultValue={[defaultStartDate, defaultEndDate]}
-        weekStartDayIndex={1}
-        format="MM/dd/yyyy"
-        weekNumber="WN"
-      />
+      <div className="date-range-container">
+        <DateRangePicker
+          ranges={[selectedRange]}
+          onChange={handleRangeSelect}
+          months={2}
+          direction="horizontal"
+          showSelectionPreview={true}
+          showMonthAndYearPickers={false}
+        />
+      </div>
     </div>
   );
 }

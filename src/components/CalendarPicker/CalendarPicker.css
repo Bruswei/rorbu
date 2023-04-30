@@ -1,8 +1,25 @@
-.rmdp-day {
-  cursor: default;
-  pointer-events: none;
+.calendar-container {
+  display: flex;
+  justify-content: center;
 }
 
-.unavailable-date {
-  color: #d11c1c;
+.date-range-container {
+  display: flex;
+}
+
+.react-date-range {
+  width: auto;
+}
+
+.react-date-range .rdr-Month {
+  width: 100%;
+  flex: 1;
+}
+
+.react-date-range .rdr-MonthPreview {
+  display: none;
+}
+
+.react-date-range .rdr-MonthRange {
+  display: flex;
 }
