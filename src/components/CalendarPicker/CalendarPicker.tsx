@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { DateRangePicker } from "react-date-range";
 import { Group, Indicator } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { Calendar } from "@mantine/dates";
@@ -7,17 +6,29 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./CalendarPicker.css";
 
-function CalendarPicker({ onRangeSelected }) {
-  const [selectedRange, setSelectedRange] = useState({
-    startDate: null,
-    endDate: null,
-    key: "selection",
-  });
+interface Props {
+  onRangeSelected: (range: [Date | null, Date | null]) => void;
+  bookedDates?: BookedDates;
+}
+
+interface BookedDates {
+  [key: string]: boolean;
+}
+
+function CalendarPicker({ bookedDates: initialBookedDates }: Props) {
+  const [bookedDates, setBookedDates] = useState<BookedDates>(
+    initialBookedDates || {}
+  );
 
   const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
 
   const changeDatePickerRange = (range: [Date | null, Date | null]) => {
     setValue(range);
+  };
+
+  const isDateBooked = (date: Date): boolean => {
+    const dateString = date.toISOString().split("T")[0]; // format to YYYY-MM-DD
+    return Boolean(bookedDates[dateString]);
   };
 
   return (
@@ -34,20 +45,16 @@ function CalendarPicker({ onRangeSelected }) {
               return (
                 <Indicator
                   size={6}
-                  color="red"
+                  color={isDateBooked(date) ? "yellow" : ""} // change color if date is booked
                   offset={-2}
-                  disabled={day !== 16}
+                  disabled={!isDateBooked(date)} // show indicator if date is booked
                 >
                   <div>{day}</div>
                 </Indicator>
               );
             }}
             excludeDate={(date) => {
-              return (
-                date.getDate() === 10 ||
-                date.getDate() === 11 ||
-                date.getDate() === 12
-              );
+              return isDateBooked(date);
             }}
           />
         </Group>
