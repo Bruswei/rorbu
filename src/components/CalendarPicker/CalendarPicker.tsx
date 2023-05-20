@@ -52,18 +52,24 @@ function CalendarPicker({
             value={value}
             onChange={changeDatePickerRange}
             renderDay={(date) => {
-              if (isDateReserved(date)) {
-                return (
-                  <Indicator
-                    size={6}
-                    color="yellow"
-                    offset={-2}
-                    disabled={isDateBooked(date)} // show indicator if date is booked
-                  >
+              const isBooked = isDateBooked(date);
+              const isReserved = isDateReserved(date);
+              return (
+                <div style={{ color: isBooked ? "red" : "black" }}>
+                  {isReserved ? (
+                    <Indicator
+                      size={6}
+                      color="yellow"
+                      offset={-2}
+                      disabled={isBooked}
+                    >
+                      {date.getDate()}
+                    </Indicator>
+                  ) : (
                     <div>{date.getDate()}</div>
-                  </Indicator>
-                );
-              }
+                  )}
+                </div>
+              );
             }}
             excludeDate={(date) => {
               return isDateBooked(date);

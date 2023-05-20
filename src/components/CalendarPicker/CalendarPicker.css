@@ -3,23 +3,10 @@
   justify-content: center;
 }
 
-.date-range-container {
-  display: flex;
+.mantine-DatePicker-day {
+  color: black !important;
 }
 
-.react-date-range {
-  width: auto;
-}
-
-.react-date-range .rdr-Month {
-  width: 100%;
-  flex: 1;
-}
-
-.react-date-range .rdr-MonthPreview {
-  display: none;
-}
-
-.react-date-range .rdr-MonthRange {
-  display: flex;
+.mantine-DatePicker-day--disabled {
+  color: red !important;
 }
