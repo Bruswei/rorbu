@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Grid, Text } from "@mantine/core";
 import {
   AppBar,
   Toolbar,
@@ -17,12 +18,23 @@ import CalendarPicker from "./CalendarPicker/CalendarPicker";
 interface AppBarProps {
   scrollPosition: number;
 }
+interface BookedDates {
+  [key: string]: boolean;
+}
 
 export default function MyAppBar({ scrollPosition }: AppBarProps) {
   const [isRestored, setIsRestored] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const unavailableDates = [
+  const datesToDict = (datesArray: Date[]): BookedDates => {
+    return datesArray.reduce<BookedDates>((accum, curr) => {
+      const dateString = curr.toISOString().split("T")[0]; // format to YYYY-MM-DD
+      accum[dateString] = true;
+      return accum;
+    }, {});
+  };
+
+  const bookedDatesArray = [
     new Date("2023-05-01"),
     new Date("2023-05-02"),
     new Date("2023-05-03"),
@@ -33,24 +45,20 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
     new Date("2023-06-04"),
   ];
 
-  const handleRangeSelected = (selectedRange) => {
-    // Handle the selected range here
-    console.log(selectedRange);
-  };
+  const bookedDatesDict = datesToDict(bookedDatesArray);
 
-  useEffect(() => {
-    const handleLoad = () => {
-      const restoredScrollPosition = window.pageYOffset;
-      if (restoredScrollPosition > 0) {
-        setIsRestored(true);
-      }
-    };
-    window.addEventListener("load", handleLoad);
+  const reservedDatesArray = [
+    new Date("2023-05-05"),
+    new Date("2023-05-06"),
+    new Date("2023-05-07"),
+    new Date("2023-05-08"),
+    new Date("2023-06-05"),
+    new Date("2023-06-06"),
+    new Date("2023-06-07"),
+    new Date("2023-06-08"),
+  ];
 
-    return () => {
-      window.removeEventListener("load", handleLoad);
-    };
-  }, []);
+  const reservedDatesDict = datesToDict(reservedDatesArray);
 
   const appBarClass =
     scrollPosition > 0 || isRestored
@@ -185,7 +193,16 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <CalendarPicker onRangeSelected={handleRangeSelected} />
+          <CalendarPicker
+            bookedDates={bookedDatesDict}
+            reservedDates={reservedDatesDict}
+          />
+          <Box display="flex" justifyContent="center" mt={2}>
+            <Typography variant="body2" color="text.secondary">
+              Dates with yellow indicators are reserved already but not
+              confirmed.
+            </Typography>
+          </Box>
         </DialogContent>
       </Dialog>
     </AppBar>

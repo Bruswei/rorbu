@@ -7,17 +7,23 @@ import "react-date-range/dist/theme/default.css";
 import "./CalendarPicker.css";
 
 interface Props {
-  onRangeSelected: (range: [Date | null, Date | null]) => void;
   bookedDates?: BookedDates;
+  reservedDates?: BookedDates;
 }
 
 interface BookedDates {
   [key: string]: boolean;
 }
 
-function CalendarPicker({ bookedDates: initialBookedDates }: Props) {
+function CalendarPicker({
+  bookedDates: initialBookedDates,
+  reservedDates: initialReservedDates,
+}: Props) {
   const [bookedDates, setBookedDates] = useState<BookedDates>(
     initialBookedDates || {}
+  );
+  const [reservedDates, setReservedDates] = useState<BookedDates>(
+    initialReservedDates || {}
   );
 
   const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
@@ -31,6 +37,11 @@ function CalendarPicker({ bookedDates: initialBookedDates }: Props) {
     return Boolean(bookedDates[dateString]);
   };
 
+  const isDateReserved = (date: Date): boolean => {
+    const dateString = date.toISOString().split("T")[0]; // format to YYYY-MM-DD
+    return Boolean(reservedDates[dateString]);
+  };
+
   return (
     <div className="calendar-container">
       <div className="date-range-container">
@@ -41,17 +52,18 @@ function CalendarPicker({ bookedDates: initialBookedDates }: Props) {
             value={value}
             onChange={changeDatePickerRange}
             renderDay={(date) => {
-              const day = date.getDate();
-              return (
-                <Indicator
-                  size={6}
-                  color={isDateBooked(date) ? "yellow" : ""} // change color if date is booked
-                  offset={-2}
-                  disabled={!isDateBooked(date)} // show indicator if date is booked
-                >
-                  <div>{day}</div>
-                </Indicator>
-              );
+              if (isDateReserved(date)) {
+                return (
+                  <Indicator
+                    size={6}
+                    color="yellow"
+                    offset={-2}
+                    disabled={isDateBooked(date)} // show indicator if date is booked
+                  >
+                    <div>{date.getDate()}</div>
+                  </Indicator>
+                );
+              }
             }}
             excludeDate={(date) => {
               return isDateBooked(date);
