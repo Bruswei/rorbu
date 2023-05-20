@@ -1,0 +1,25 @@
+.calendar-container {
+  display: flex;
+  justify-content: center;
+}
+
+.date-range-container {
+  display: flex;
+}
+
+.react-date-range {
+  width: auto;
+}
+
+.react-date-range .rdr-Month {
+  width: 100%;
+  flex: 1;
+}
+
+.react-date-range .rdr-MonthPreview {
+  display: none;
+}
+
+.react-date-range .rdr-MonthRange {
+  display: flex;
+}

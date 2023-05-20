@@ -1,40 +1,81 @@
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Grid, Text } from "@mantine/core";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  IconButton,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { Link as RouterLink } from "react-router-dom";
+import CalendarPicker from "./CalendarPicker/CalendarPicker";
 
 interface AppBarProps {
   scrollPosition: number;
 }
+interface BookedDates {
+  [key: string]: boolean;
+}
 
 export default function MyAppBar({ scrollPosition }: AppBarProps) {
   const [isRestored, setIsRestored] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
-  useEffect(() => {
-    const handleLoad = () => {
-      const restoredScrollPosition = window.pageYOffset;
-      if (restoredScrollPosition > 0) {
-        setIsRestored(true);
-      }
-    };
-    window.addEventListener("load", handleLoad);
+  const datesToDict = (datesArray: Date[]): BookedDates => {
+    return datesArray.reduce<BookedDates>((accum, curr) => {
+      const dateString = curr.toISOString().split("T")[0]; // format to YYYY-MM-DD
+      accum[dateString] = true;
+      return accum;
+    }, {});
+  };
 
-    return () => {
-      window.removeEventListener("load", handleLoad);
-    };
-  }, []);
+  const bookedDatesArray = [
+    new Date("2023-05-01"),
+    new Date("2023-05-02"),
+    new Date("2023-05-03"),
+    new Date("2023-05-04"),
+    new Date("2023-06-01"),
+    new Date("2023-06-02"),
+    new Date("2023-06-03"),
+    new Date("2023-06-04"),
+  ];
+
+  const bookedDatesDict = datesToDict(bookedDatesArray);
+
+  const reservedDatesArray = [
+    new Date("2023-05-05"),
+    new Date("2023-05-06"),
+    new Date("2023-05-07"),
+    new Date("2023-05-08"),
+    new Date("2023-06-05"),
+    new Date("2023-06-06"),
+    new Date("2023-06-07"),
+    new Date("2023-06-08"),
+  ];
+
+  const reservedDatesDict = datesToDict(reservedDatesArray);
 
   const appBarClass =
     scrollPosition > 0 || isRestored
       ? "blurry-appbar scrolled"
       : "blurry-appbar";
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   return (
     <AppBar
       position="fixed"
-      className={
-        // scrollPosition > 0 ? "blurry-appbar scrolled" : "blurry-appbar"
-        appBarClass
-      }
+      className={appBarClass}
       sx={{
         backgroundColor: "transparent",
         boxShadow: "none",
@@ -68,7 +109,7 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
             }}
           >
             <Typography variant="h6" component="div">
-              Rorbu Bømlo
+              Filipsson Rorbu
             </Typography>
           </Button>
           <Box>
@@ -96,7 +137,7 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
             >
               Pricing
             </Button>
-            <Button
+            {/* <Button
               component={RouterLink}
               to="/contact"
               color="inherit"
@@ -107,10 +148,63 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
               }}
             >
               Contact
+            </Button> */}
+            <Button
+              onClick={handleOpenDialog}
+              color="inherit"
+              sx={{
+                textTransform: "none",
+                color: scrollPosition > 0 ? "black" : "white",
+                transition: "color 0.3s",
+              }}
+            >
+              Availability
             </Button>
           </Box>
         </Box>
       </Toolbar>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        maxWidth="md"
+        sx={{
+          width: "80%",
+          margin: "auto",
+          "& .MuiDialog-paper": {
+            width: "100%",
+            maxWidth: "80%",
+          },
+        }}
+      >
+        <DialogTitle>
+          <Typography variant="h6" component="div">
+            Check Availability
+          </Typography>
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseDialog}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <CalendarPicker
+            bookedDates={bookedDatesDict}
+            reservedDates={reservedDatesDict}
+          />
+          <Box display="flex" justifyContent="center" mt={2}>
+            <Typography variant="body2" color="text.secondary">
+              Dates with yellow indicators are reserved already but not
+              confirmed.
+            </Typography>
+          </Box>
+        </DialogContent>
+      </Dialog>
     </AppBar>
   );
 }

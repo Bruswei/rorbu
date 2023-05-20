@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { useRef } from "react";
 import useOnScreen from "../utils/useOnScreen";
 import norwayImage from "../../media/sea.jpg";
+import CalendarPicker from "./CalendarPicker/CalendarPicker";
 
 interface HomeContentProps {
   titleRef: React.RefObject<HTMLDivElement>;
