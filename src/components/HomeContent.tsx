@@ -1,8 +1,6 @@
 import { Box, Typography } from "@mui/material";
-import { useRef } from "react";
-import useOnScreen from "../utils/useOnScreen";
 import norwayImage from "../../media/sea.jpg";
-import CalendarPicker from "./CalendarPicker/CalendarPicker";
+import { useTranslation } from "react-i18next";
 
 interface HomeContentProps {
   titleRef: React.RefObject<HTMLDivElement>;
@@ -22,6 +20,10 @@ export default function HomeContent(props: HomeContentProps) {
     isBodyOnScreen,
     isImageOnScreen,
   } = props;
+
+  const { t } = useTranslation();
+  const welcomeString = t("home.welcome");
+  const welcomeWords = welcomeString.split(" ");
 
   return (
     <Box
@@ -48,13 +50,13 @@ export default function HomeContent(props: HomeContentProps) {
       >
         <Typography variant="h1" className="welcome-text">
           <span className="word" style={{ animationDelay: "0.3s" }}>
-            Welcome
+            {welcomeWords[0]}
           </span>{" "}
           <span className="word" style={{ animationDelay: "0.7s" }}>
-            to
+            {welcomeWords[1]}
           </span>{" "}
           <span className="word" style={{ animationDelay: "1.1s" }}>
-            Bømlo
+            {welcomeWords[2]}
           </span>
         </Typography>
       </Box>
@@ -76,7 +78,7 @@ export default function HomeContent(props: HomeContentProps) {
             className={`slideUp-initial ${isBodyOnScreen ? "slideUp" : ""}`}
             variant="h2"
           >
-            Discover the Beauty of Norway
+            {t("home.content.1.title")}
           </Typography>
           <Typography
             variant="body1"
@@ -85,11 +87,7 @@ export default function HomeContent(props: HomeContentProps) {
             className={`slideUp-initial ${isBodyOnScreen ? "slideUp" : ""}`}
             style={{ transitionDelay: "1.5s" }}
           >
-            Norway, a beautiful and enchanting Nordic country, is famous for its
-            breathtaking landscapes, mesmerizing fjords, and friendly locals.
-            Known as the Land of the Midnight Sun, Norway offers a magical
-            experience to travelers, with its picturesque countryside and
-            vibrant cities.
+            {t("home.content.1.description")}
           </Typography>
         </Box>
         <Box

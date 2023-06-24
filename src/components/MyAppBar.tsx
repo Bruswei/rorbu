@@ -14,15 +14,23 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { Link as RouterLink } from "react-router-dom";
 import CalendarPicker from "./CalendarPicker/CalendarPicker";
+import { useTranslation } from "react-i18next";
 
 interface AppBarProps {
   scrollPosition: number;
+  currentLanguage: string;
+  handleLanguageSwitch: () => void;
 }
 interface BookedDates {
   [key: string]: boolean;
 }
 
-export default function MyAppBar({ scrollPosition }: AppBarProps) {
+export default function MyAppBar({
+  scrollPosition,
+  currentLanguage,
+  handleLanguageSwitch,
+}: AppBarProps) {
+  const { t, i18n } = useTranslation();
   const [isRestored, setIsRestored] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -71,6 +79,9 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
+  const germanyFlag = "./../../media/de-flag.svg";
+  const ukFlag = "./../../media/uk-flag.svg";
 
   return (
     <AppBar
@@ -123,7 +134,7 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
                 transition: "color 0.3s",
               }}
             >
-              Home
+              {t("nav.home")}
             </Button>
             <Button
               component={RouterLink}
@@ -135,7 +146,7 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
                 transition: "color 0.3s",
               }}
             >
-              Pricing
+              {t("nav.pricing")}
             </Button>
             {/* <Button
               component={RouterLink}
@@ -158,7 +169,31 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
                 transition: "color 0.3s",
               }}
             >
-              Availability
+              {t("nav.availability")}
+            </Button>
+            <Button
+              onClick={handleLanguageSwitch}
+              color="inherit"
+              sx={{
+                textTransform: "none",
+                color: scrollPosition > 0 ? "black" : "white",
+                transition: "color 0.3s",
+                padding: 0,
+              }}
+            >
+              {currentLanguage === "en" ? (
+                <img
+                  src={germanyFlag}
+                  alt="Germany"
+                  style={{ width: "1.8rem", height: "auto" }}
+                />
+              ) : (
+                <img
+                  src={ukFlag}
+                  alt="UK"
+                  style={{ width: "1.8rem", height: "auto" }}
+                />
+              )}
             </Button>
           </Box>
         </Box>
