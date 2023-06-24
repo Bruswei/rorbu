@@ -6,7 +6,15 @@ import HomeContent from "./components/HomeContent";
 import { useState, useEffect, useRef } from "react";
 import useOnScreen from "./utils/useOnScreen";
 
-export default function HomePage() {
+interface HomePageProps {
+  currentLanguage: string;
+  handleLanguageSwitch: () => void;
+}
+
+export default function HomePage({
+  currentLanguage,
+  handleLanguageSwitch,
+}: HomePageProps) {
   const [scrollPosition, setScrollPosition] = useState(window.pageYOffset);
   const imageRef = useRef<HTMLImageElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
@@ -56,7 +64,11 @@ export default function HomePage() {
 
   return (
     <>
-      <MyAppBar scrollPosition={scrollPosition} />
+      <MyAppBar
+        scrollPosition={scrollPosition}
+        currentLanguage={currentLanguage}
+        handleLanguageSwitch={handleLanguageSwitch}
+      />
       <Box
         className="home-background"
         sx={{

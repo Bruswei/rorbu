@@ -14,15 +14,23 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { Link as RouterLink } from "react-router-dom";
 import CalendarPicker from "./CalendarPicker/CalendarPicker";
+import GermanyIcon from "@mui/icons-material/FlagOutlined";
+import EnglandIcon from "@mui/icons-material/FlagOutlined";
 
 interface AppBarProps {
   scrollPosition: number;
+  currentLanguage: string;
+  handleLanguageSwitch: () => void;
 }
 interface BookedDates {
   [key: string]: boolean;
 }
 
-export default function MyAppBar({ scrollPosition }: AppBarProps) {
+export default function MyAppBar({
+  scrollPosition,
+  currentLanguage,
+  handleLanguageSwitch,
+}: AppBarProps) {
   const [isRestored, setIsRestored] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -71,6 +79,9 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
+  const germanyFlag = "./../../media/de-flag.svg";
+  const ukFlag = "./../../media/uk-flag.svg";
 
   return (
     <AppBar
@@ -159,6 +170,30 @@ export default function MyAppBar({ scrollPosition }: AppBarProps) {
               }}
             >
               Availability
+            </Button>
+            <Button
+              onClick={handleLanguageSwitch}
+              color="inherit"
+              sx={{
+                textTransform: "none",
+                color: scrollPosition > 0 ? "black" : "white",
+                transition: "color 0.3s",
+                padding: 0,
+              }}
+            >
+              {currentLanguage === "en" ? (
+                <img
+                  src={germanyFlag}
+                  alt="Germany"
+                  style={{ width: "1.8rem", height: "auto" }}
+                />
+              ) : (
+                <img
+                  src={ukFlag}
+                  alt="UK"
+                  style={{ width: "1.8rem", height: "auto" }} 
+                />
+              )}
             </Button>
           </Box>
         </Box>
