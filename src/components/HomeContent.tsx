@@ -78,7 +78,7 @@ export default function HomeContent(props: HomeContentProps) {
             className={`slideUp-initial ${isBodyOnScreen ? "slideUp" : ""}`}
             variant="h2"
           >
-            Discover the Beauty of Norway
+            {t("home.content.1.title")}
           </Typography>
           <Typography
             variant="body1"
@@ -87,11 +87,7 @@ export default function HomeContent(props: HomeContentProps) {
             className={`slideUp-initial ${isBodyOnScreen ? "slideUp" : ""}`}
             style={{ transitionDelay: "1.5s" }}
           >
-            Norway, a beautiful and enchanting Nordic country, is famous for its
-            breathtaking landscapes, mesmerizing fjords, and friendly locals.
-            Known as the Land of the Midnight Sun, Norway offers a magical
-            experience to travelers, with its picturesque countryside and
-            vibrant cities.
+            {t("home.content.1.description")}
           </Typography>
         </Box>
         <Box

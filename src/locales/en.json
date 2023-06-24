@@ -1,5 +1,11 @@
 {
   "home.title": "Home",
   "home.welcome": "Welcome to Bømlo",
-  "home.button": "Click me!"
+  "home.button": "Click me!",
+  "nav.home": "Home",
+  "nav.pricing": "Pricing",
+  "nav.availability": "Availability",
+  "home.content.1.title": "Discover the Beauty of Norway",
+  "home.content.1.description": "Norway, a beautiful and enchanting Nordic country, is famous for its breathtaking landscapes, mesmerizing fjords, and friendly locals. Known as the Land of the Midnight Sun, Norway offers a magical experience to travelers, with its picturesque countryside and vibrant cities."
+
 }

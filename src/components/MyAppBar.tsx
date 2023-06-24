@@ -14,8 +14,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { Link as RouterLink } from "react-router-dom";
 import CalendarPicker from "./CalendarPicker/CalendarPicker";
-import GermanyIcon from "@mui/icons-material/FlagOutlined";
-import EnglandIcon from "@mui/icons-material/FlagOutlined";
+import { useTranslation } from "react-i18next";
 
 interface AppBarProps {
   scrollPosition: number;
@@ -31,6 +30,7 @@ export default function MyAppBar({
   currentLanguage,
   handleLanguageSwitch,
 }: AppBarProps) {
+  const { t, i18n } = useTranslation();
   const [isRestored, setIsRestored] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -134,7 +134,7 @@ export default function MyAppBar({
                 transition: "color 0.3s",
               }}
             >
-              Home
+              {t("nav.home")}
             </Button>
             <Button
               component={RouterLink}
@@ -146,7 +146,7 @@ export default function MyAppBar({
                 transition: "color 0.3s",
               }}
             >
-              Pricing
+              {t("nav.pricing")}
             </Button>
             {/* <Button
               component={RouterLink}
@@ -169,7 +169,7 @@ export default function MyAppBar({
                 transition: "color 0.3s",
               }}
             >
-              Availability
+              {t("nav.availability")}
             </Button>
             <Button
               onClick={handleLanguageSwitch}
@@ -191,7 +191,7 @@ export default function MyAppBar({
                 <img
                   src={ukFlag}
                   alt="UK"
-                  style={{ width: "1.8rem", height: "auto" }} 
+                  style={{ width: "1.8rem", height: "auto" }}
                 />
               )}
             </Button>
