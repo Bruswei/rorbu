@@ -1,11 +1,16 @@
-import React from 'react';
-import HomePage from './HomePage';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./il8n";
+
+import HomePage from "./HomePage";
 
 function App() {
   return (
     <Router>
-      <HomePage />
+      <I18nextProvider i18n={i18n}>
+        <HomePage />
+      </I18nextProvider>
     </Router>
   );
 }
