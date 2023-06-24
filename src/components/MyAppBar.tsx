@@ -213,7 +213,7 @@ export default function MyAppBar({
       >
         <DialogTitle>
           <Typography variant="h6" component="div">
-            Check Availability
+            {t("availability.title")}
           </Typography>
           <IconButton
             aria-label="close"
@@ -234,8 +234,7 @@ export default function MyAppBar({
           />
           <Box display="flex" justifyContent="center" mt={2}>
             <Typography variant="body2" color="text.secondary">
-              Dates with yellow indicators are reserved already but not
-              confirmed.
+              {t("availability.calendar.info")}
             </Typography>
           </Box>
         </DialogContent>
