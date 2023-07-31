@@ -4,6 +4,7 @@ import { initReactI18next } from "react-i18next";
 // Language resources
 import enTranslation from "./locales/en.json";
 import deTranslation from "./locales/de.json";
+import noTranslation from "./locales/no.json";
 
 // Configure i18next
 i18n.use(initReactI18next).init({
@@ -15,6 +16,9 @@ i18n.use(initReactI18next).init({
     },
     de: {
       translation: deTranslation,
+    },
+    no: {
+      translation: noTranslation,
     },
   },
   interpolation: {
