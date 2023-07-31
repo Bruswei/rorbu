@@ -6,6 +6,10 @@
   "nav.pricing": "Pricing",
   "nav.availability": "Availability",
   "home.content.1.title": "Discover the Beauty of Norway",
-  "home.content.1.description": "Norway, a beautiful and enchanting Nordic country, is famous for its breathtaking landscapes, mesmerizing fjords, and friendly locals. Known as the Land of the Midnight Sun, Norway offers a magical experience to travelers, with its picturesque countryside and vibrant cities."
-
+  "home.content.1.description": "Norway, a beautiful and enchanting Nordic country, is famous for its breathtaking landscapes, mesmerizing fjords, and friendly locals. Known as the Land of the Midnight Sun, Norway offers a magical experience to travelers, with its picturesque countryside and vibrant cities.",
+  "availability.title": "Check Availability",
+  "availability.calendar.info": "Dates with yellow indicators are reserved already but not confirmed.",
+  "language.norwegian": "Norwegian",
+  "language.english": "English",
+  "language.german": "German"
 }

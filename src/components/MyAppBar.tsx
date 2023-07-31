@@ -10,6 +10,9 @@ import {
   DialogTitle,
   DialogContent,
   IconButton,
+  Menu,
+  MenuItem,
+  ListItemIcon,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link as RouterLink } from "react-router-dom";
@@ -33,6 +36,7 @@ export default function MyAppBar({
   const { t, i18n } = useTranslation();
   const [isRestored, setIsRestored] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const datesToDict = (datesArray: Date[]): BookedDates => {
     return datesArray.reduce<BookedDates>((accum, curr) => {
@@ -79,9 +83,22 @@ export default function MyAppBar({
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+  const handleLanguageMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleLanguageMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLanguageSelection = (language: string) => {
+    handleLanguageSwitch(language);
+    handleLanguageMenuClose();
+  };
 
   const germanyFlag = "./../../media/de-flag.svg";
   const ukFlag = "./../../media/uk-flag.svg";
+  const norwegianFlag = "./../../media/no-flag.svg";
 
   return (
     <AppBar
@@ -172,7 +189,7 @@ export default function MyAppBar({
               {t("nav.availability")}
             </Button>
             <Button
-              onClick={handleLanguageSwitch}
+              onClick={handleLanguageMenuOpen}
               color="inherit"
               sx={{
                 textTransform: "none",
@@ -183,18 +200,60 @@ export default function MyAppBar({
             >
               {currentLanguage === "en" ? (
                 <img
+                  src={ukFlag}
+                  alt="UK"
+                  style={{ width: "1.8rem", height: "auto" }}
+                />
+              ) : currentLanguage === "de" ? (
+                <img
                   src={germanyFlag}
                   alt="Germany"
                   style={{ width: "1.8rem", height: "auto" }}
                 />
               ) : (
                 <img
-                  src={ukFlag}
-                  alt="UK"
+                  src={norwegianFlag}
+                  alt="Norway"
                   style={{ width: "1.8rem", height: "auto" }}
                 />
               )}
             </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleLanguageMenuClose}
+            >
+              <MenuItem onClick={() => handleLanguageSelection("en")}>
+                <ListItemIcon>
+                  <img
+                    src={ukFlag}
+                    alt="UK"
+                    style={{ width: "1.8rem", height: "auto" }}
+                  />
+                </ListItemIcon>
+                {t("language.english")}
+              </MenuItem>
+              <MenuItem onClick={() => handleLanguageSelection("de")}>
+                <ListItemIcon>
+                  <img
+                    src={germanyFlag}
+                    alt="Germany"
+                    style={{ width: "1.8rem", height: "auto" }}
+                  />
+                </ListItemIcon>
+                {t("language.german")}
+              </MenuItem>
+              <MenuItem onClick={() => handleLanguageSelection("no")}>
+                <ListItemIcon>
+                  <img
+                    src={norwegianFlag}
+                    alt="Norway"
+                    style={{ width: "1.8rem", height: "auto" }}
+                  />
+                </ListItemIcon>
+                {t("language.norwegian")}
+              </MenuItem>
+            </Menu>
           </Box>
         </Box>
       </Toolbar>
@@ -213,7 +272,7 @@ export default function MyAppBar({
       >
         <DialogTitle>
           <Typography variant="h6" component="div">
-            Check Availability
+            {t("availability.title")}
           </Typography>
           <IconButton
             aria-label="close"
@@ -234,8 +293,7 @@ export default function MyAppBar({
           />
           <Box display="flex" justifyContent="center" mt={2}>
             <Typography variant="body2" color="text.secondary">
-              Dates with yellow indicators are reserved already but not
-              confirmed.
+              {t("availability.calendar.info")}
             </Typography>
           </Box>
         </DialogContent>
