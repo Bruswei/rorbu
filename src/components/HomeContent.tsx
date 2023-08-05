@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import norwayImage from "../../media/sea.jpg";
 import { useTranslation } from "react-i18next";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface HomeContentProps {
   titleRef: React.RefObject<HTMLDivElement>;
@@ -59,6 +60,15 @@ export default function HomeContent(props: HomeContentProps) {
             {welcomeWords[2]}
           </span>
         </Typography>
+        <Box className="slideUpIcon" sx={{ textAlign: "center", mt: 4 }}>
+          <ExpandMoreIcon
+            sx={{
+              fontSize: "3rem",
+              animation: "bounce 1s infinite",
+              color: "primary",
+            }}
+          />
+        </Box>
       </Box>
       <Box
         sx={{
