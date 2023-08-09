@@ -68,6 +68,15 @@ export default function HomeContent(props: HomeContentProps) {
               color: "primary",
             }}
           />
+          <Typography
+            sx={{
+              marginTop: 1,
+              fontSize: "1.5rem",
+              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+            }}
+          >
+            {t("home.scrolldown")}
+          </Typography>
         </Box>
       </Box>
       <Box
