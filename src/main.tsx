@@ -9,7 +9,6 @@ const theme = createTheme({
   // You can customize the theme here
 });
 
-// Dette her også en test
 createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>

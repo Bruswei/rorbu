@@ -33,8 +33,6 @@ export default function HomePage({
   }, []);
 
   const location = useLocation();
-  
-  // dette er bare en test
 
   const [isInitialRender, setIsInitialRender] = useState(true);
 
