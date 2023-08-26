@@ -5,6 +5,7 @@ import "./assets/styles.css";
 import HomeContent from "./components/HomeContent";
 import { useState, useEffect, useRef } from "react";
 import useOnScreen from "./utils/useOnScreen";
+import { getBookings } from "./backend/services/firebaseService";
 
 interface HomePageProps {
   currentLanguage: string;
@@ -24,6 +25,20 @@ export default function HomePage({
   const isTitleOnScreen = useOnScreen(titleRef);
   const isBodyOnScreen = useOnScreen(bodyRef);
   const homeContentRef = useRef<HTMLDivElement>(null);
+
+  const [bookings, setBookings] = useState<any[]>([]); // Replace any[] with your data type if known
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const result = await getBookings(); // Assuming getBookings is your Firebase service method
+        setBookings(result);
+      } catch (error) {
+        console.error("Failed to fetch bookings:", error);
+      }
+    };
+    fetchBookings();
+  }, []);
 
   useEffect(() => {
     document.body.style.overflowX = "hidden";
