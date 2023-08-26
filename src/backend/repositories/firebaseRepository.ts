@@ -1,7 +1,7 @@
 import db from "../firebaseConfig.js";
 
 // Modular imports for Firestore
-import { collection, addDoc, getDoc, doc } from "firebase/firestore";
+import { collection, addDoc, getDoc, doc, getDocs } from "firebase/firestore";
 
 export const addUserToFirestore = async (user) => {
   const usersCollection = collection(db, "users");
@@ -16,4 +16,12 @@ export const getUserFromFirestore = async (userId) => {
   } else {
     throw new Error("User does not exist");
   }
+};
+
+// I need a get function that fetches bookings from firebase collection
+export const getBookingsFromFirestore = async () => {
+  const bookingsCollection = collection(db, "bookings");
+  const bookingsSnapshot = await getDocs(bookingsCollection);
+  const bookings = bookingsSnapshot.docs.map((doc) => doc.data());
+  return bookings;
 };
