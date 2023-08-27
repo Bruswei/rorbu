@@ -16,8 +16,9 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link as RouterLink } from "react-router-dom";
-import CalendarPicker from "./CalendarPicker/CalendarPicker";
+import CalendarPicker from "../CalendarPicker/CalendarPicker";
 import { useTranslation } from "react-i18next";
+import AvailabilityContent from "./Availability";
 
 interface AppBarProps {
   scrollPosition: number;
@@ -287,15 +288,10 @@ export default function MyAppBar({
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <CalendarPicker
+          <AvailabilityContent
             bookedDates={bookedDatesDict}
             reservedDates={reservedDatesDict}
           />
-          <Box display="flex" justifyContent="center" mt={2}>
-            <Typography variant="body2" color="text.secondary">
-              {t("availability.calendar.info")}
-            </Typography>
-          </Box>
         </DialogContent>
       </Dialog>
     </AppBar>

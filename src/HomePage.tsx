@@ -1,5 +1,5 @@
 import { Typography, Box } from "@mui/material";
-import MyAppBar from "./components/MyAppBar";
+import MyAppBar from "./components/NavBar/MyAppBar";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import "./assets/styles.css";
 import HomeContent from "./components/HomeContent";
