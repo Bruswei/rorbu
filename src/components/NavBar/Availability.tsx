@@ -1,7 +1,8 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { DialogContent, Typography, Box } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import CalendarPicker from "../CalendarPicker/CalendarPicker";
+import { getBookings } from "../../backend/services/firebaseService";
 
 interface AvailabilityContentProps {
   bookedDates: { [key: string]: boolean };
@@ -13,6 +14,19 @@ const AvailabilityContent: React.FC<AvailabilityContentProps> = ({
   reservedDates,
 }) => {
   const { t } = useTranslation();
+  const [bookings, setBookings] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const result = await getBookings();
+        setBookings(result);
+      } catch (error) {
+        console.error("Failed to fetch bookings:", error);
+      }
+    };
+    fetchBookings();
+  }, []);
 
   return (
     <DialogContent>
