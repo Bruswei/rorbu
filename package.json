@@ -21,7 +21,8 @@
     "react-date-range": "^1.4.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^13.0.0",
-    "react-router-dom": "^5.3.4"
+    "react-router-dom": "^5.3.4",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@types/firebase": "^3.2.1",
