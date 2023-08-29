@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { DialogContent, Typography, Box } from "@mui/material";
+import {
+  DialogContent,
+  Typography,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
 import CalendarPicker from "../CalendarPicker/CalendarPicker";
 import {
@@ -45,7 +50,16 @@ const AvailabilityContent: React.FC<AvailabilityContentProps> = ({
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return (
