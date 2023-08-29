@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Grid, Text } from "@mantine/core";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -16,14 +15,13 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link as RouterLink } from "react-router-dom";
-import CalendarPicker from "../CalendarPicker/CalendarPicker";
 import { useTranslation } from "react-i18next";
 import AvailabilityContent from "./Availability";
 
 interface AppBarProps {
   scrollPosition: number;
   currentLanguage: string;
-  handleLanguageSwitch: () => void;
+  handleLanguageSwitch: (lang: string) => void;
 }
 interface BookedDates {
   [key: string]: boolean;
@@ -38,40 +36,6 @@ export default function MyAppBar({
   const [isRestored, setIsRestored] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const datesToDict = (datesArray: Date[]): BookedDates => {
-    return datesArray.reduce<BookedDates>((accum, curr) => {
-      const dateString = curr.toISOString().split("T")[0]; // format to YYYY-MM-DD
-      accum[dateString] = true;
-      return accum;
-    }, {});
-  };
-
-  const bookedDatesArray = [
-    new Date("2023-05-01"),
-    new Date("2023-05-02"),
-    new Date("2023-05-03"),
-    new Date("2023-05-04"),
-    new Date("2023-06-01"),
-    new Date("2023-06-02"),
-    new Date("2023-06-03"),
-    new Date("2023-06-04"),
-  ];
-
-  const bookedDatesDict = datesToDict(bookedDatesArray);
-
-  const reservedDatesArray = [
-    new Date("2023-05-05"),
-    new Date("2023-05-06"),
-    new Date("2023-05-07"),
-    new Date("2023-05-08"),
-    new Date("2023-06-05"),
-    new Date("2023-06-06"),
-    new Date("2023-06-07"),
-    new Date("2023-06-08"),
-  ];
-
-  const reservedDatesDict = datesToDict(reservedDatesArray);
 
   const appBarClass =
     scrollPosition > 0 || isRestored
@@ -288,10 +252,7 @@ export default function MyAppBar({
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <AvailabilityContent
-            bookedDates={bookedDatesDict}
-            reservedDates={reservedDatesDict}
-          />
+          <AvailabilityContent />
         </DialogContent>
       </Dialog>
     </AppBar>

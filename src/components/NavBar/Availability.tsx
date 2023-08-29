@@ -14,13 +14,7 @@ import {
 } from "../../backend/services/firebaseService";
 import { BookingsSchema } from "../../backend/schemas/booking.schema";
 
-interface AvailabilityContentProps {
-  bookedDates: { [key: string]: boolean };
-  reservedDates: { [key: string]: boolean };
-}
-
-const AvailabilityContent: React.FC<AvailabilityContentProps> = ({
-  reservedDates,
+const AvailabilityContent: React.FC = ({
 }) => {
   const { t } = useTranslation();
   const [bookings, setBookings] = useState<any[]>([]);
@@ -64,7 +58,7 @@ const AvailabilityContent: React.FC<AvailabilityContentProps> = ({
 
   return (
     <DialogContent>
-      <CalendarPicker bookedDates={bookedDates} reservedDates={reservedDates} />
+      <CalendarPicker bookedDates={bookedDates} reservedDates={{}} />
       <Box display="flex" justifyContent="center" mt={2}>
         <Typography variant="body2" color="text.secondary">
           {t("availability.calendar.info")}

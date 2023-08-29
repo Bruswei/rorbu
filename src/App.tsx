@@ -8,11 +8,16 @@ import HomePage from "./HomePage";
 
 function App() {
   const [currentLanguage, setCurrentLanguage] = useState("en");
+  const allowedLanguages = ["en", "de", "no"];
 
   const handleLanguageSwitch = (language: string) => {
-    const newLanguage = currentLanguage === "en" ? "de" : "no";
-    setCurrentLanguage(language);
-    i18n.changeLanguage(language);
+    if (allowedLanguages.includes(language)) {
+      setCurrentLanguage(language);
+      i18n.changeLanguage(language);
+    } else {
+      setCurrentLanguage("en");
+      i18n.changeLanguage("en");
+    }
   };
 
   return (

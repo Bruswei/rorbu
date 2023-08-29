@@ -8,7 +8,7 @@ import useOnScreen from "./utils/useOnScreen";
 
 interface HomePageProps {
   currentLanguage: string;
-  handleLanguageSwitch: () => void;
+  handleLanguageSwitch: (lang: string) => void;
 }
 
 export default function HomePage({
