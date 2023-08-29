@@ -18,10 +18,12 @@ export const getUserFromFirestore = async (userId) => {
   }
 };
 
-// I need a get function that fetches bookings from firebase collection
 export const getBookingsFromFirestore = async () => {
   const bookingsCollection = collection(db, "bookings");
   const bookingsSnapshot = await getDocs(bookingsCollection);
-  const bookings = bookingsSnapshot.docs.map((doc) => doc.data());
+  const bookings = bookingsSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
   return bookings;
 };

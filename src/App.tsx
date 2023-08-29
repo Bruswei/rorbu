@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import { useState } from "react";
@@ -8,11 +7,16 @@ import HomePage from "./HomePage";
 
 function App() {
   const [currentLanguage, setCurrentLanguage] = useState("en");
+  const allowedLanguages = ["en", "de", "no"];
 
   const handleLanguageSwitch = (language: string) => {
-    const newLanguage = currentLanguage === "en" ? "de" : "no";
-    setCurrentLanguage(language);
-    i18n.changeLanguage(language);
+    if (allowedLanguages.includes(language)) {
+      setCurrentLanguage(language);
+      i18n.changeLanguage(language);
+    } else {
+      setCurrentLanguage("en");
+      i18n.changeLanguage("en");
+    }
   };
 
   return (
