@@ -9,8 +9,8 @@ import { useTranslation } from "react-i18next";
 import CalendarPicker from "../CalendarPicker/CalendarPicker";
 import {
   getBookings,
-  getDatesBetween,
   BookedDates,
+  getDatesBetweenForCalendar,
 } from "../../backend/services/firebaseService";
 import { BookingsSchema } from "../../backend/schemas/booking.schema";
 
@@ -31,7 +31,10 @@ const AvailabilityContent: React.FC = ({}) => {
         for (const booking of validBookings) {
           const startDate = new Date(booking.start);
           const endDate = new Date(booking.end);
-          dates = { ...dates, ...getDatesBetween(startDate, endDate) };
+          dates = {
+            ...dates,
+            ...getDatesBetweenForCalendar(startDate, endDate),
+          };
         }
         setBookedDates(dates);
       } catch (error) {
