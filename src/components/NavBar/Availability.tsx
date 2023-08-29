@@ -14,8 +14,7 @@ import {
 } from "../../backend/services/firebaseService";
 import { BookingsSchema } from "../../backend/schemas/booking.schema";
 
-const AvailabilityContent: React.FC = ({
-}) => {
+const AvailabilityContent: React.FC = ({}) => {
   const { t } = useTranslation();
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);

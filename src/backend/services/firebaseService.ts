@@ -5,13 +5,19 @@ export const getBookings = async () => {
   return await getBookingsFromFirestore();
 };
 
-export const getDatesBetween = (start: Date, end: Date): BookedDates => {
-  let currentDate = start;
+export const getDatesBetweenForCalendar = (
+  start: Date,
+  end: Date
+): BookedDates => {
+  // This was added due to calendarpicker showing incorrect dates
+  // but if we are using the same datepicker, we might be enable to remove this.
+  let startDate = new Date(start.setDate(start.getDate() - 1));
+  let endDate = new Date(end.setDate(end.getDate() - 1));
   const result: BookedDates = {};
 
-  while (currentDate <= end) {
-    result[currentDate.toISOString().split("T")[0]] = true;
-    currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
+  while (startDate <= endDate) {
+    result[startDate.toISOString().split("T")[0]] = true;
+    startDate = new Date(startDate.setDate(startDate.getDate() + 1));
   }
 
   return result;
