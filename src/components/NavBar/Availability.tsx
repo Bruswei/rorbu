@@ -24,6 +24,24 @@ const AvailabilityContent: React.FC = ({}) => {
   const [bookedDates, setBookedDates] = useState<{ [key: string]: boolean }>(
     {}
   );
+  const [formValues, setFormValues] = useState({
+    name: "",
+    email: "",
+    telephone: "",
+    numberOfGuests: 1,
+    message: "",
+  });
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(formValues);
+  };
+
   useEffect(() => {
     const fetchBookings = async () => {
       try {
@@ -72,6 +90,7 @@ const AvailabilityContent: React.FC = ({}) => {
 
       <Box
         component="form"
+        onSubmit={handleFormSubmit}
         mt={5}
         sx={{
           padding: 2,
@@ -85,7 +104,9 @@ const AvailabilityContent: React.FC = ({}) => {
               fullWidth
               label={t("name")}
               placeholder="Enter your full name"
+              name="name"
               variant="outlined"
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -94,7 +115,9 @@ const AvailabilityContent: React.FC = ({}) => {
               label={t("email")}
               type="email"
               placeholder="you@example.com"
+              name="email"
               variant="outlined"
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -103,7 +126,9 @@ const AvailabilityContent: React.FC = ({}) => {
               label={t("telephone")}
               type="tel"
               placeholder="+1 234 567 890"
+              name="telephone"
               variant="outlined"
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -111,8 +136,10 @@ const AvailabilityContent: React.FC = ({}) => {
               fullWidth
               label={t("number_of_guests")}
               type="number"
+              name="numberOfGuests"
               placeholder="Number of guests"
               variant="outlined"
+              onChange={handleInputChange}
               InputProps={{
                 inputProps: {
                   min: 1,
@@ -124,8 +151,10 @@ const AvailabilityContent: React.FC = ({}) => {
             <TextField
               fullWidth
               label={t("message")}
+              name="message"
               placeholder="Any special requests or message"
               variant="outlined"
+              onChange={handleInputChange}
               multiline
               rows={4}
             />
