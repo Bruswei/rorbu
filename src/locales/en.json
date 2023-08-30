@@ -12,5 +12,11 @@
   "availability.calendar.info": "Dates with yellow indicators are reserved already but not confirmed.",
   "language.norwegian": "Norwegian",
   "language.english": "English",
-  "language.german": "German"
+  "language.german": "German",
+  "name": "Name",
+  "email": "Email",
+  "telephone": "Telephone",
+  "number_of_guests": "Number of Guests",
+  "message": "Message",
+  "confirm_booking": "Confirm Booking"
 }

@@ -4,6 +4,9 @@ import {
   Typography,
   Box,
   CircularProgress,
+  Grid,
+  TextField,
+  Button,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import CalendarPicker from "../CalendarPicker/CalendarPicker";
@@ -65,6 +68,74 @@ const AvailabilityContent: React.FC = ({}) => {
         <Typography variant="body2" color="text.secondary">
           {t("availability.calendar.info")}
         </Typography>
+      </Box>
+
+      <Box
+        component="form"
+        mt={5}
+        sx={{
+          padding: 2,
+          borderRadius: 1,
+          backgroundColor: "#fff",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label={t("name")}
+              placeholder="Enter your full name"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label={t("email")}
+              type="email"
+              placeholder="you@example.com"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label={t("telephone")}
+              type="tel"
+              placeholder="+1 234 567 890"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label={t("number_of_guests")}
+              type="number"
+              placeholder="Number of guests"
+              variant="outlined"
+              InputProps={{
+                inputProps: {
+                  min: 1,
+                },
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label={t("message")}
+              placeholder="Any special requests or message"
+              variant="outlined"
+              multiline
+              rows={4}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              {t("confirm_booking")}
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </DialogContent>
   );

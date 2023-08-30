@@ -12,5 +12,11 @@
   "availability.calendar.info": "Datoer med gule markører er allerede reservert, men ikke bekreftet.",
   "language.norwegian": "Norsk",
   "language.english": "Engelsk",
-  "language.german": "Tysk"
+  "language.german": "Tysk",
+  "name": "Navn",
+  "email": "E-post",
+  "telephone": "Telefon",
+  "number_of_guests": "Antall gjester",
+  "message": "Melding",
+  "confirm_booking": "Bekreft booking"
 }
