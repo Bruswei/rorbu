@@ -1,4 +1,8 @@
-import { getBookingsFromFirestore } from "../repositories/firebaseRepository";
+import {
+  addReservationToFirebase,
+  getBookingsFromFirestore,
+} from "../repositories/firebaseRepository";
+import reservationSchema, { Reservation } from "../schemas/reservation.schema";
 
 // a function that returns bookings from the firebase repository getBookingsFromFirestore method
 export const getBookings = async () => {
@@ -21,6 +25,16 @@ export const getDatesBetweenForCalendar = (
   }
 
   return result;
+};
+
+export const addReservation = async (reservation: Reservation) => {
+  const parsedReservation = reservationSchema.safeParse(reservation);
+
+  if (!parsedReservation.success) {
+    throw new Error("Invalid reservation");
+  }
+
+  return await addReservationToFirebase(reservation);
 };
 
 export interface BookedDates {

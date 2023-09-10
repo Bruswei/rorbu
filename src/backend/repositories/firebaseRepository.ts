@@ -2,6 +2,7 @@ import db from "../firebaseConfig.js";
 
 // Modular imports for Firestore
 import { collection, addDoc, getDoc, doc, getDocs } from "firebase/firestore";
+import { Reservation } from "../schemas/reservation.schema.js";
 
 export const addUserToFirestore = async (user) => {
   const usersCollection = collection(db, "users");
@@ -26,4 +27,15 @@ export const getBookingsFromFirestore = async () => {
     ...doc.data(),
   }));
   return bookings;
+};
+
+export const addReservationToFirebase = async (reservation: Reservation) => {
+  const reservationsCollection = collection(db, "reservations");
+  try {
+    const docRef = await addDoc(reservationsCollection, reservation);
+    return { success: true, id: docRef.id };
+  } catch (e) {
+    console.error("Error adding reservation: ", e);
+    return { success: false, error: e };
+  }
 };

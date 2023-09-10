@@ -11,4 +11,8 @@ const reservationSchema = z.object({
   message: z.string(),
 });
 
-const exportSchema = z.array(reservationSchema);
+// const exportSchema = z.array(reservationSchema);
+
+export type Reservation = z.infer<typeof reservationSchema>;
+
+export default reservationSchema;
