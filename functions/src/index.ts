@@ -1,81 +1,71 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import {z} from "zod";
-import * as nodemailer from "nodemailer";
+import * as cors from "cors";
 
 admin.initializeApp();
 
-export const onNewReservation = functions
+const corsHandler = cors({origin: true});
+export const createReservation = functions
     .region("europe-west1")
-    .firestore.document("reservations/{reservationId}")
-    .onWrite(async (change, context) => {
-    // To get the data of the created document, use `change.after.data()`
-      const newData = change.after.data();
+    .https.onRequest(async (req, res) => {
+      corsHandler(req, res, async () => {
+        if (req.method !== "POST") {
+          res.status(405).send("Method Not Allowed");
+          return;
+        }
 
-      if (!newData) {
-        return {success: false, message: "No data found"};
-      }
-
-      const reservationSchema = z.object({
-        id: z.string(),
-        name: z.string(),
-        email: z.string().email(),
-        phone: z.string().min(8).max(30),
-        start: z.string(),
-        end: z.string(),
-        guests: z.number(),
-        message: z.string(),
-      });
-      const reservation = reservationSchema.safeParse(newData);
-      if (!reservation.success) {
-        return {success: false, message: "Invalid reservation data."};
-      }
-
-      try {
-        await admin.firestore()
-            .collection("reservations")
-            .add(reservation.data);
-
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: functions.config().gmail.email.user,
-            pass: functions.config().gmail.email.password,
-          },
+        const reservationSchema = z.object({
+          name: z.string(),
+          email: z.string().email(),
+          phone: z.string().min(8).max(30),
+          start: z.string(),
+          end: z.string(),
+          guests: z.number(),
+          message: z.string(),
         });
 
-        const mailOptions = {
-          from: functions.config().gmail.email.user,
-          to: functions.config().gmail.email.test,
-          subject: "New reservation from " + reservation.data.name,
-          text:
-          // "Name: " +
-          // reservation.data.name +
-          // "\n" +
-          // "Email: " +
-          // reservation.data.email +
-          // "\n" +
-          // "Phone: " +
-          // reservation.data.phone +
-          // "\n" +
-          // "Start: " +
-          // reservation.data.start +
-          // "\n" +
-          // "End: " +
-          // reservation.data.end +
-          // "\n" +
-          // "Guests: " +
-          // reservation.data.guests +
-          // "\n" +
-          // "Message: " +
-          // reservation.data.message,
-          "test email works maybe?",
-        };
+        const reservation = reservationSchema.safeParse(req.body);
 
-        await transporter.sendMail(mailOptions);
+        if (!reservation.success) {
+          res.status(400).send("Invalid reservation data.");
+          return;
+        }
 
-        return {success: true};
-      } catch (error) {
-        return {success: false, message: "Error handling reservation"};
-      }
+        try {
+          await admin
+              .firestore()
+              .collection("reservations")
+              .add(reservation.data);
+
+          const mailText = `
+          <h1>New Reservation Details:</h1>
+          <p><strong>Name:</strong> ${reservation.data.name}</p>
+          <p><strong>Email:</strong> ${reservation.data.email}</p>
+          <p><strong>Phone:</strong> ${reservation.data.phone}</p>
+          <p><strong>Start Date:</strong> ${reservation.data.start}</p>
+          <p><strong>End Date:</strong> ${reservation.data.end}</p>
+          <p><strong>Number of Guests:</strong> ${reservation.data.guests}</p>
+          <p><strong>Message:</strong> ${reservation.data.message}</p>
+        `;
+
+          // Add a new document to the "mail" collection
+          await admin
+              .firestore()
+              .collection("mail")
+              .add({
+                to: functions.config().email.test,
+                message: {
+                  subject: "Ny Reservation",
+                  text: "Nå er det komment en ny reservasjon!",
+                  html: mailText,
+                },
+              });
+
+          res.status(200).send({success: true});
+        } catch (error) {
+          console.error(error);
+          res.status(500).send("Internal Server Error");
+        }
+      });
     });
