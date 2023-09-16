@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const reservationSchema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   name: z.string(),
   email: z.string().email(),
   phone: z.string().min(8).max(30),

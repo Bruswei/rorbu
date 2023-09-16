@@ -14,8 +14,11 @@ import {
   getBookings,
   BookedDates,
   getDatesBetweenForCalendar,
+  addReservation,
 } from "../../backend/services/firebaseService";
 import { BookingsSchema } from "../../backend/schemas/booking.schema";
+import reservationSchema from "../../backend/schemas/reservation.schema";
+import { add } from "date-fns";
 
 const AvailabilityContent: React.FC = ({}) => {
   const { t } = useTranslation();
@@ -24,22 +27,55 @@ const AvailabilityContent: React.FC = ({}) => {
   const [bookedDates, setBookedDates] = useState<{ [key: string]: boolean }>(
     {}
   );
-  const [formValues, setFormValues] = useState({
+  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+
+  const [formValues, setFormValues] = useState<{
+    name: string;
+    email: string;
+    telephone: string;
+    guests: number | "";
+    message: string;
+  }>({
     name: "",
     email: "",
     telephone: "",
-    numberOfGuests: 1,
+    guests: 1,
     message: "",
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormValues((prev) => ({ ...prev, [name]: value }));
+    let parsedValue: string | number = value;
+
+    if (name === "guests") {
+      parsedValue = value !== "" ? parseInt(value, 10) : "";
+    }
+    setFormValues((prev) => ({ ...prev, [name]: parsedValue }));
+  };
+
+  const handleSetSlectedDates = (dates: [Date | null]) => {
+    setSelectedDates(dates);
   };
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(formValues);
+
+    if (selectedDates !== null) {
+      const reservation = {
+        ...formValues,
+        start: selectedDates[0]?.toISOString(),
+        end: selectedDates[1]?.toISOString(),
+      };
+      const result = reservationSchema.safeParse(reservation);
+
+      if (result.success) {
+        try {
+          addReservation(result.data);
+        } catch (error) {
+          console.error("Failed to add reservation:", error);
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -81,7 +117,11 @@ const AvailabilityContent: React.FC = ({}) => {
 
   return (
     <DialogContent>
-      <CalendarPicker bookedDates={bookedDates} reservedDates={{}} />
+      <CalendarPicker
+        bookedDates={bookedDates}
+        reservedDates={{}}
+        onSelect={handleSetSlectedDates}
+      />
       <Box display="flex" justifyContent="center" mt={2}>
         <Typography variant="body2" color="text.secondary">
           {t("availability.calendar.info")}
@@ -126,7 +166,7 @@ const AvailabilityContent: React.FC = ({}) => {
               label={t("telephone")}
               type="tel"
               placeholder="+1 234 567 890"
-              name="telephone"
+              name="phone"
               variant="outlined"
               onChange={handleInputChange}
             />
@@ -136,8 +176,8 @@ const AvailabilityContent: React.FC = ({}) => {
               fullWidth
               label={t("number_of_guests")}
               type="number"
-              name="numberOfGuests"
-              placeholder="Number of guests"
+              name="guests"
+              placeholder={t("number_of_guests")}
               variant="outlined"
               onChange={handleInputChange}
               InputProps={{

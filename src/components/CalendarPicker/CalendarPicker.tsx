@@ -9,6 +9,7 @@ import "./CalendarPicker.css";
 interface Props {
   bookedDates?: BookedDates;
   reservedDates?: BookedDates;
+  onSelect?: (dates: [Date | null, Date | null]) => void;
 }
 
 interface BookedDates {
@@ -18,6 +19,7 @@ interface BookedDates {
 function CalendarPicker({
   bookedDates: initialBookedDates,
   reservedDates: initialReservedDates,
+  onSelect: handleSelect,
 }: Props) {
   const [bookedDates, setBookedDates] = useState<BookedDates>(
     initialBookedDates || {}
@@ -30,6 +32,9 @@ function CalendarPicker({
 
   const changeDatePickerRange = (range: [Date | null, Date | null]) => {
     setValue(range);
+    if (handleSelect) {
+      handleSelect(range);
+    }
   };
 
   const isDateBooked = (date: Date): boolean => {

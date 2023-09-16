@@ -30,10 +30,24 @@ export const getBookingsFromFirestore = async () => {
 };
 
 export const addReservationToFirebase = async (reservation: Reservation) => {
-  const reservationsCollection = collection(db, "reservations");
   try {
-    const docRef = await addDoc(reservationsCollection, reservation);
-    return { success: true, id: docRef.id };
+    const response = await fetch(
+      "https://europe-west1-filipson-rorbu.cloudfunctions.net/createReservation",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reservation),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok " + response.statusText);
+    }
+
+    const result = await response.json();
+    return { success: true, id: result.id };
   } catch (e) {
     console.error("Error adding reservation: ", e);
     return { success: false, error: e };
