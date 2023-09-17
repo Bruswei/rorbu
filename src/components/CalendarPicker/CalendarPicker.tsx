@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Group, Indicator } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
-import { Calendar } from "@mantine/dates";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./CalendarPicker.css";
@@ -38,12 +37,18 @@ function CalendarPicker({
   };
 
   const isDateBooked = (date: Date): boolean => {
-    const dateString = date.toISOString().split("T")[0]; // format to YYYY-MM-DD
+    const localDate = new Date(
+      date.toLocaleString("en-US", { timeZone: "Europe/Oslo" })
+    );
+    const dateString = localDate.toISOString().split("T")[0];
     return Boolean(bookedDates[dateString]);
   };
 
   const isDateReserved = (date: Date): boolean => {
-    const dateString = date.toISOString().split("T")[0]; // format to YYYY-MM-DD
+    const localDate = new Date(
+      date.toLocaleString("en-US", { timeZone: "Europe/Oslo" })
+    );
+    const dateString = localDate.toISOString().split("T")[0];
     return Boolean(reservedDates[dateString]);
   };
 

@@ -6,10 +6,27 @@ import * as cors from "cors";
 admin.initializeApp();
 
 const corsHandler = cors({origin: true});
+
+/**
+ * Formats a date to the Oslo time zone.
+ * @param {Date} date - The date to format.
+ * @return {string} The formatted date in the Oslo time zone (YYYY-MM-DD).
+ */
+function formatDateToOsloTimezone(date: Date): string {
+  const osloTimeZone = "Europe/Oslo";
+  return date.toLocaleString("en-US", {
+    timeZone: osloTimeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+}
+
 export const createReservation = functions
     .region("europe-west1")
     .https.onRequest(async (req, res) => {
       corsHandler(req, res, async () => {
+      // Function to format dates to Oslo time zone
         if (req.method !== "POST") {
           res.status(405).send("Method Not Allowed");
           return;
@@ -32,6 +49,12 @@ export const createReservation = functions
           return;
         }
 
+        const startDate = formatDateToOsloTimezone(
+            new Date(reservation.data.start)
+        );
+        const endDate =
+        formatDateToOsloTimezone(new Date(reservation.data.end));
+
         try {
           await admin
               .firestore()
@@ -43,8 +66,8 @@ export const createReservation = functions
           <p><strong>Name:</strong> ${reservation.data.name}</p>
           <p><strong>Email:</strong> ${reservation.data.email}</p>
           <p><strong>Phone:</strong> ${reservation.data.phone}</p>
-          <p><strong>Start Date:</strong> ${reservation.data.start}</p>
-          <p><strong>End Date:</strong> ${reservation.data.end}</p>
+          <p><strong>Start Date:</strong> ${startDate}</p>
+          <p><strong>End Date:</strong> ${endDate}</p>
           <p><strong>Number of Guests:</strong> ${reservation.data.guests}</p>
           <p><strong>Message:</strong> ${reservation.data.message}</p>
         `;
