@@ -27,6 +27,9 @@ const AvailabilityContent: React.FC = ({}) => {
   const [bookedDates, setBookedDates] = useState<{ [key: string]: boolean }>(
     {}
   );
+  const [reservationMessage, setReservationMessage] = useState<string | null>(
+    null
+  );
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
 
   const [formValues, setFormValues] = useState<{
@@ -57,10 +60,12 @@ const AvailabilityContent: React.FC = ({}) => {
     setSelectedDates(dates);
   };
 
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (selectedDates !== null) {
+      setLoading(true);
+
       const reservation = {
         ...formValues,
         start: selectedDates[0]?.toISOString(),
@@ -70,11 +75,28 @@ const AvailabilityContent: React.FC = ({}) => {
 
       if (result.success) {
         try {
-          addReservation(result.data);
+          const response = await addReservation(result.data);
+
+          if (response.success) {
+            setReservationMessage("Reservation successfully submitted!");
+          } else {
+            setReservationMessage(
+              "Failed to submit reservation. Please try again."
+            );
+          }
         } catch (error) {
           console.error("Failed to add reservation:", error);
+          setReservationMessage(
+            "An error occurred while submitting the reservation."
+          );
         }
+      } else {
+        setReservationMessage(
+          "Invalid reservation data. Please check your inputs."
+        );
       }
+
+      setLoading(false);
     }
   };
 
@@ -117,95 +139,125 @@ const AvailabilityContent: React.FC = ({}) => {
 
   return (
     <DialogContent>
-      <CalendarPicker
-        bookedDates={bookedDates}
-        reservedDates={{}}
-        onSelect={handleSetSlectedDates}
-      />
-      <Box display="flex" justifyContent="center" mt={2}>
-        <Typography variant="body2" color="text.secondary">
-          {t("availability.calendar.info")}
-        </Typography>
-      </Box>
+      {loading && (
+        <Box display="flex" justifyContent="center" mt={4}>
+          <CircularProgress />
+        </Box>
+      )}
 
-      <Box
-        component="form"
-        onSubmit={handleFormSubmit}
-        mt={5}
-        sx={{
-          padding: 2,
-          borderRadius: 1,
-          backgroundColor: "#fff",
-        }}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label={t("name")}
-              placeholder="Enter your full name"
-              name="name"
-              variant="outlined"
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label={t("email")}
-              type="email"
-              placeholder="you@example.com"
-              name="email"
-              variant="outlined"
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label={t("telephone")}
-              type="tel"
-              placeholder="+1 234 567 890"
-              name="phone"
-              variant="outlined"
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label={t("number_of_guests")}
-              type="number"
-              name="guests"
-              placeholder={t("number_of_guests")}
-              variant="outlined"
-              onChange={handleInputChange}
-              InputProps={{
-                inputProps: {
-                  min: 1,
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label={t("message")}
-              name="message"
-              placeholder="Any special requests or message"
-              variant="outlined"
-              onChange={handleInputChange}
-              multiline
-              rows={4}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              {t("confirm_booking")}
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
+      {reservationMessage && !loading && (
+        <Box
+          mt={2}
+          p={1}
+          bgcolor={
+            reservationMessage.includes("successfully")
+              ? "success.main"
+              : "error.main"
+          }
+          color="white"
+          borderRadius={4}
+        >
+          <Typography variant="body2">{reservationMessage}</Typography>
+        </Box>
+      )}
+      {!loading && !reservationMessage && (
+        <>
+          <CalendarPicker
+            bookedDates={bookedDates}
+            reservedDates={{}}
+            onSelect={handleSetSlectedDates}
+          />
+          <Box display="flex" justifyContent="center" mt={2}>
+            <Typography variant="body2" color="text.secondary">
+              {t("availability.calendar.info")}
+            </Typography>
+          </Box>
+
+          <Box
+            component="form"
+            onSubmit={handleFormSubmit}
+            mt={5}
+            sx={{
+              padding: 2,
+              borderRadius: 1,
+              backgroundColor: "#fff",
+            }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label={t("name")}
+                  placeholder="Enter your full name"
+                  name="name"
+                  variant="outlined"
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label={t("email")}
+                  type="email"
+                  placeholder="you@example.com"
+                  name="email"
+                  variant="outlined"
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label={t("telephone")}
+                  type="tel"
+                  placeholder="+1 234 567 890"
+                  name="phone"
+                  variant="outlined"
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label={t("number_of_guests")}
+                  type="number"
+                  name="guests"
+                  placeholder={t("number_of_guests")}
+                  variant="outlined"
+                  onChange={handleInputChange}
+                  InputProps={{
+                    inputProps: {
+                      min: 1,
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label={t("message")}
+                  name="message"
+                  placeholder="Any special requests or message"
+                  variant="outlined"
+                  onChange={handleInputChange}
+                  multiline
+                  rows={4}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  {t("confirm_booking")}
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </>
+      )}
     </DialogContent>
   );
 };
