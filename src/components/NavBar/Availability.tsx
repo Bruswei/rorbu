@@ -27,7 +27,7 @@ const AvailabilityContent: React.FC = ({}) => {
   const [bookedDates, setBookedDates] = useState<{ [key: string]: boolean }>(
     {}
   );
-  const [reservationMessage, setReservationMessage] = useState<string | null>(
+  const [reservationRespons, setReservationRespons] = useState<string | null>(
     null
   );
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
@@ -78,22 +78,16 @@ const AvailabilityContent: React.FC = ({}) => {
           const response = await addReservation(result.data);
 
           if (response.success) {
-            setReservationMessage("Reservation successfully submitted!");
+            setReservationRespons("success");
           } else {
-            setReservationMessage(
-              "Failed to submit reservation. Please try again."
-            );
+            setReservationRespons("failed");
           }
         } catch (error) {
           console.error("Failed to add reservation:", error);
-          setReservationMessage(
-            "An error occurred while submitting the reservation."
-          );
+          setReservationRespons("error");
         }
       } else {
-        setReservationMessage(
-          "Invalid reservation data. Please check your inputs."
-        );
+        setReservationRespons("invalid");
       }
 
       setLoading(false);
@@ -137,6 +131,16 @@ const AvailabilityContent: React.FC = ({}) => {
     );
   }
 
+  function loadingDoneAndNoResponseFromFirebase() {
+    return (
+      !loading && (!reservationRespons || reservationRespons === "invalid")
+    );
+  }
+
+  function loadingDoneAndResponseFromFirebase() {
+    return !loading && reservationRespons !== null;
+  }
+
   return (
     <DialogContent>
       {loading && (
@@ -145,22 +149,26 @@ const AvailabilityContent: React.FC = ({}) => {
         </Box>
       )}
 
-      {reservationMessage && !loading && (
+      {loadingDoneAndResponseFromFirebase() && (
         <Box
           mt={2}
           p={1}
           bgcolor={
-            reservationMessage.includes("successfully")
+            reservationRespons && reservationRespons.includes("success")
               ? "success.main"
               : "error.main"
           }
           color="white"
           borderRadius={4}
+          textAlign={"center"}
+          fontSize={36}
         >
-          <Typography variant="body2">{reservationMessage}</Typography>
+          <Typography variant="body2">
+            {t(`availability.reservation.${reservationRespons}`)}
+          </Typography>
         </Box>
       )}
-      {!loading && !reservationMessage && (
+      {loadingDoneAndNoResponseFromFirebase() && (
         <>
           <CalendarPicker
             bookedDates={bookedDates}
@@ -261,5 +269,7 @@ const AvailabilityContent: React.FC = ({}) => {
     </DialogContent>
   );
 };
+
+// Todo: Update logic to show the form if the response was "invalid"
 
 export default AvailabilityContent;

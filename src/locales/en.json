@@ -18,5 +18,9 @@
   "telephone": "Telephone",
   "number_of_guests": "Number of Guests",
   "message": "Message",
-  "confirm_booking": "Confirm Booking"
+  "confirm_booking": "Confirm Booking",
+  "availability.reservation.success": "Reservation added successfully",
+  "availability.reservation.failed": "Failed to add reservation",
+  "availability.reservation.error": "An error occurred while adding reservation",
+  "availability.reservation.invalid": "Invalid reservation data"
 }

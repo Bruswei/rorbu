@@ -18,5 +18,9 @@
   "telephone": "Telefon",
   "number_of_guests": "Antall gjester",
   "message": "Melding",
-  "confirm_booking": "Bekreft booking"
+  "confirm_booking": "Bekreft booking",
+  "availability.reservation.success": "Reservasjon lagt til vellykket",
+  "availability.reservation.failed": "Kunne ikke legge til reservasjon",
+  "availability.reservation.error": "En feil oppstod under tillegg av reservasjon",
+  "availability.reservation.invalid": "Ugyldige reservasjonsdata"
 }

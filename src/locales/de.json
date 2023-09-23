@@ -18,5 +18,9 @@
   "telephone": "Telefon",
   "number_of_guests": "Anzahl der Personen",
   "message": "Nachricht",
-  "confirm_booking": "Buchung bestätigen"
+  "confirm_booking": "Buchung bestätigen",
+  "availability.reservation.success": "Reservierung erfolgreich hinzugefügt",
+  "availability.reservation.failed": "Fehler beim Hinzufügen der Reservierung",
+  "availability.reservation.error": "Beim Hinzufügen der Reservierung ist ein Fehler aufgetreten",
+  "availability.reservation.invalid": "Ungültige Reservierungsdaten"
 }
