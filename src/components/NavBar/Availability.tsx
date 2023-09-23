@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   DialogContent,
   Typography,
@@ -32,7 +32,7 @@ const AvailabilityContent: React.FC = ({}) => {
   );
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
 
-  const [formValues, setFormValues] = useState<{
+  const formValuesRef = useRef<{
     name: string;
     email: string;
     telephone: string;
@@ -46,15 +46,23 @@ const AvailabilityContent: React.FC = ({}) => {
     message: "",
   });
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    let parsedValue: string | number = value;
+  const [formValid, setFormValid] = useState(false);
 
-    if (name === "guests") {
-      parsedValue = value !== "" ? parseInt(value, 10) : "";
-    }
-    setFormValues((prev) => ({ ...prev, [name]: parsedValue }));
-  };
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+      let parsedValue: string | number = value;
+
+      if (name === "guests") {
+        parsedValue = value !== "" ? parseInt(value, 10) : "";
+      }
+      formValuesRef.current = {
+        ...formValuesRef.current,
+        [name]: parsedValue,
+      };
+    },
+    []
+  );
 
   const handleSetSlectedDates = (dates: [Date | null]) => {
     setSelectedDates(dates);
@@ -62,6 +70,8 @@ const AvailabilityContent: React.FC = ({}) => {
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const formValues = formValuesRef.current;
 
     if (selectedDates !== null) {
       setLoading(true);
@@ -117,6 +127,17 @@ const AvailabilityContent: React.FC = ({}) => {
     };
     fetchBookings();
   }, []);
+
+  useEffect(() => {
+    const { name, email, guests } = formValuesRef.current;
+    const isNameValid = name.trim().length > 0;
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const isGuestsValid = guests !== "" && guests >= 1;
+    const isDatesSelected = selectedDates.length === 2;
+    setFormValid(
+      isNameValid && isEmailValid && isGuestsValid && isDatesSelected
+    );
+  }, [selectedDates]);
 
   if (loading) {
     return (
@@ -258,6 +279,7 @@ const AvailabilityContent: React.FC = ({}) => {
                   variant="contained"
                   color="primary"
                   fullWidth
+                  disabled={!formValid}
                 >
                   {t("confirm_booking")}
                 </Button>
