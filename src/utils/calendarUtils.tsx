@@ -1,16 +1,10 @@
-import { getBookingsFromFirestore } from "../repositories/firebaseRepository";
 
-// a function that returns bookings from the firebase repository getBookingsFromFirestore method
-export const getBookings = async () => {
-  return await getBookingsFromFirestore();
-};
-
+// This was added due to calendarpicker showing incorrect dates
+// but if we are using the same datepicker, we might be enable to remove this.
 export const getDatesBetweenForCalendar = (
   start: Date,
   end: Date
 ): BookedDates => {
-  // This was added due to calendarpicker showing incorrect dates
-  // but if we are using the same datepicker, we might be enable to remove this.
   let startDate = new Date(start.setDate(start.getDate() - 1));
   let endDate = new Date(end.setDate(end.getDate() - 1));
   const result: BookedDates = {};

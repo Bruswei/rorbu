@@ -4,6 +4,7 @@ import { useState } from "react";
 import i18n from "./il8n";
 
 import HomePage from "./HomePage";
+import { ServiceProvider } from "./context/ServiceContext";
 
 function App() {
   const [currentLanguage, setCurrentLanguage] = useState("en");
@@ -22,10 +23,12 @@ function App() {
   return (
     <Router>
       <I18nextProvider i18n={i18n}>
-        <HomePage
-          currentLanguage={currentLanguage}
-          handleLanguageSwitch={handleLanguageSwitch}
-        />
+        <ServiceProvider>
+          <HomePage
+            currentLanguage={currentLanguage}
+            handleLanguageSwitch={handleLanguageSwitch}
+          />
+        </ServiceProvider>
       </I18nextProvider>
     </Router>
   );
