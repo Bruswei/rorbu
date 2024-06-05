@@ -7,13 +7,10 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import CalendarPicker from "../CalendarPicker/CalendarPicker";
-import {
-  getBookings,
-  BookedDates,
-  getDatesBetweenForCalendar,
-} from "../../backend/services/firebaseService";
 import { BookingsSchema } from "../../backend/schemas/booking.schema";
-
+import { FirebaseRepository } from "../../backend/repositories/firebaseRepository";
+import { AppService } from "../../backend/services/appService";
+import { BookedDates, getDatesBetweenForCalendar } from "../../utils/calendarUtils";
 const AvailabilityContent: React.FC = ({}) => {
   const { t } = useTranslation();
   const [bookings, setBookings] = useState<any[]>([]);
@@ -21,10 +18,15 @@ const AvailabilityContent: React.FC = ({}) => {
   const [bookedDates, setBookedDates] = useState<{ [key: string]: boolean }>(
     {}
   );
+
+  // Instantiate the repository and service
+  const repository = new FirebaseRepository();
+  const appService = new AppService(repository);
+
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const result = await getBookings();
+        const result = await appService.getBookings();
         const validBookings = BookingsSchema.parse(result);
         setBookings(validBookings);
         let dates: BookedDates = {};
