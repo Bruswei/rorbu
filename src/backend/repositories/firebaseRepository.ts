@@ -2,7 +2,7 @@ import db from "../firebaseConfig.js";
 
 // Modular imports for Firestore
 import { collection, addDoc, getDoc, doc, getDocs } from "firebase/firestore";
-import { Booking, IRepository, User } from "./interfaces.js";
+import { Booking, IRepository, User } from "../interfaces/interfaces.js";
 import { BookingsSchema } from "../schemas/booking.schema.js";
 
 export class FirebaseRepository implements IRepository {
