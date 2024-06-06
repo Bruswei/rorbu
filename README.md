@@ -5,7 +5,7 @@ This is Private web app for our vacation home at Bømlo.
 
 Create a `.env` file in the root directory of your project and copy the enviroment information from `.env.example` file. (This will only provide access to an example project for testing purposes.) 
 
-## Installtion
+## Installation
 1. Clone the repository.
 2. Install the dependencies: ```npm install ```
 
